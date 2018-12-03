@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public enum BColor
+    {
+        green, blue, red
+    }
+
     float dmg = 4f;
     float pen = 0f; //0 no pen ... 1 is full pen
     float speed = 6f; // per second
-    float acc = 0.2f;
+    float acc = 0.0f;
     float travelTime = 10; //seconds
-
-    Vector3 vel;
-    Vector3 offsetVel;
-
+    BColor bulletColor = BColor.blue;
+    
+    Vector3 offsetVel; //set via SetTarget by other classes that fire bullets
+    ContactPoint2D[] cp = new ContactPoint2D[10];
     float lifeTimeTimer;
 
-    public GameObject ImpactEffectPrefab;
-    ContactPoint2D[] cp = new ContactPoint2D[10];
+    public GameObject ImpactEffectPrefab; //set prefab in inspector
 
     void Start() {
         gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Front";
@@ -28,8 +32,7 @@ public class Bullet : MonoBehaviour
             Explode();
         }
     }
-
-    // Update is called once per frame
+    
     void Update () {
         
         //move forward
@@ -50,10 +53,6 @@ public class Bullet : MonoBehaviour
 
     void Explode() {
         Instantiate(ImpactEffectPrefab, transform.position, transform.rotation); //this is an explosion effect
-
-        //TODO: find ships in explosion radius
-        //TODO: do dmg to them relative to distance
-
         Destroy(gameObject);
     }
 

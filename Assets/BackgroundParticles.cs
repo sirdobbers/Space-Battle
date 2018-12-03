@@ -10,7 +10,7 @@ public class BackgroundParticles : MonoBehaviour {
     void Start() {
         cameraObject = Camera.main.gameObject;
     }
-
+    
     void Update () {
         float oSize = Camera.main.orthographicSize*0.12f;
         ps.transform.localScale = new Vector3(oSize, oSize, oSize);

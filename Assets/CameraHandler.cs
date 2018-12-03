@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraHandler : MonoBehaviour {
     
-    float baseSpeed = 1.5f;
+    //float baseSpeed = 1.5f; //used for lerp
 
     public GameObject target;
 

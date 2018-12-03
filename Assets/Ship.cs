@@ -161,7 +161,7 @@ public class Ship : MonoBehaviour {
             }
             //turn turrets
             for (int i = 0; i < TurretArray.Count; i++) {
-                TurretArray[i].GetComponent<Turret>().RotateTurretToTargetLocation(Target_Ship);
+                TurretArray[i].GetComponent<Turret>().RotateTurretToTargetPrediction(Target_Ship);
             }
         }
     }

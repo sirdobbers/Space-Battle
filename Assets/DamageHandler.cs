@@ -7,20 +7,20 @@ public class DamageHandler : MonoBehaviour {
     float armor = 10;
     float health = 10;
 
+    public GameObject DestroyEffectPrefab;
+
     void Update() {
         if (health <= 0) {
+            GameObject go = Instantiate(DestroyEffectPrefab, transform.position, transform.rotation);
+            //go.GetComponent<Particle_Impact>().Init(2, float scale);
             Destroy(gameObject);
         }
     }
 
     public void TakeDamage(float dmg, float pen) {
-        if (armor > 0) {
-            health -= dmg * pen;
-            armor -= dmg;
-        }
-        else {
-            health -= dmg;
-        }
+        float armorDMG = Mathf.Clamp(dmg, 0, armor);
+        health -= armorDMG * pen + Mathf.Max(0, dmg - armor);
+        armor -= armorDMG;
     }
 
     public void SetHP(float hp) {

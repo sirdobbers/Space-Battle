@@ -28,13 +28,15 @@ public class Thurster : MonoBehaviour {
 	
 	void Update () {
 
-        if (Dir == ThrustDirection.forward) { ThrustLvl = transform.parent.GetComponent<Ship>().GetThrust("forward"); }
-        else if (Dir == ThrustDirection.backward) { ThrustLvl = -transform.parent.GetComponent<Ship>().GetThrust("forward"); }
-        else if (Dir == ThrustDirection.turnRight) { ThrustLvl = transform.parent.GetComponent<Ship>().GetThrust("rotate"); }
-        else if (Dir == ThrustDirection.turnLeft) { ThrustLvl = -transform.parent.GetComponent<Ship>().GetThrust("rotate"); }
-        else if (Dir == ThrustDirection.strafeLeft) { ThrustLvl = transform.parent.GetComponent<Ship>().GetThrust("strafe"); }
-        else if (Dir == ThrustDirection.strafeRight) { ThrustLvl = -transform.parent.GetComponent<Ship>().GetThrust("strafe"); }
-        else if (Dir == ThrustDirection.boost) { ThrustLvl = Mathf.Clamp(transform.parent.GetComponent<Ship>().GetThrust("boost"), 0, 1); }
+        Ship ShipScript = transform.parent.GetComponent<Ship>();
+
+        if (Dir == ThrustDirection.forward) { ThrustLvl = ShipScript.GetThrust("forward"); }
+        else if (Dir == ThrustDirection.backward) { ThrustLvl = -ShipScript.GetThrust("forward"); }
+        else if (Dir == ThrustDirection.turnRight) { ThrustLvl = ShipScript.GetThrust("rotate"); }
+        else if (Dir == ThrustDirection.turnLeft) { ThrustLvl = -ShipScript.GetThrust("rotate"); }
+        else if (Dir == ThrustDirection.strafeLeft) { ThrustLvl = ShipScript.GetThrust("strafe"); }
+        else if (Dir == ThrustDirection.strafeRight) { ThrustLvl = -ShipScript.GetThrust("strafe"); }
+        else if (Dir == ThrustDirection.boost) { ThrustLvl = ShipScript.GetThrust("boost"); }
 
         //this is the "pulsing" effect of the thrusters
         transform.localScale = initScale * (ThrustLvl) * Random.Range(1.0f- 0.2f * initScale.magnitude, 1.0f + 0.2f * initScale.magnitude);

@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{074DB4C6-7C98-AE9B-1A8E-6775EF239BBF}</ProjectGuid>
+    <ProjectGuid>{A090D846-9525-303F-5714-F11F984D6F1D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -55,6 +55,8 @@
   <ItemGroup>
      <Compile Include="Assets\BackgroundParticles.cs" />
      <Compile Include="Assets\Bullet.cs" />
+     <Compile Include="Assets\BulletPrediction.cs" />
+     <Compile Include="Assets\BulletPrediction2.cs" />
      <Compile Include="Assets\CameraHandler.cs" />
      <Compile Include="Assets\DamageHandler.cs" />
      <Compile Include="Assets\EnemySpawner.cs" />
@@ -68,16 +70,16 @@
      <None Include="Assets\Other\SpaceShooterRedux\license.txt" />
      <None Include="Assets\Other\SpaceShooterRedux\Spritesheet\sheet.xml" />
  <Reference Include="UnityEditor.StandardEvents">
- <HintPath>E:/Users/Nic/Documents/Unity Projects/Space Battle/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+ <HintPath>E:/Users/Nic/Documents/Unity Projects/Space-Battle/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>E:/Users/Nic/Documents/Unity Projects/Space Battle/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>E:/Users/Nic/Documents/Unity Projects/Space-Battle/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.PackageManagerUI.Editor">
- <HintPath>E:/Users/Nic/Documents/Unity Projects/Space Battle/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+ <HintPath>E:/Users/Nic/Documents/Unity Projects/Space-Battle/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>E:/Users/Nic/Documents/Unity Projects/Space Battle/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>E:/Users/Nic/Documents/Unity Projects/Space-Battle/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

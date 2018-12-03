@@ -5,11 +5,15 @@ using UnityEngine;
 public class Particle_Impact : MonoBehaviour {
 
     ParticleSystem ps;
-    ParticleSystem[] psArray;
     float duration; //seconds
     float timer = 0;
 
     Vector3 offsetVel;
+
+    public void Init(float lifeTime, float scale) {
+        //duration = lifeTime;
+        //ps.gameObject.transform.localScale = ps.gameObject.transform.localScale * scale;
+    }
 
     void Start() {
         ps = gameObject.GetComponent<ParticleSystem>();

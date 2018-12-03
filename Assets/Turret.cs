@@ -30,6 +30,7 @@ public class Turret : MonoBehaviour {
         
     }
 
+
     public void RotateTurretToMouseLocation() {
         Vector3 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - Child_Gun.transform.position;
         float zAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90;
@@ -44,4 +45,17 @@ public class Turret : MonoBehaviour {
         Quaternion desiredRot = Quaternion.Euler(0, 0, zAngle);
         Child_Gun.transform.rotation = Quaternion.RotateTowards(Child_Gun.transform.rotation, desiredRot, rotSpeed * Time.deltaTime);
     }
+
+    public void RotateTurretToTargetPrediction(GameObject Target) {
+        
+        float bulletSpeed = Child_Gun.GetComponent<FixedGun>().projectileInitSpeed * Time.deltaTime;
+        Vector3 aimPos = gameObject.GetComponent<BulletPrediction2>().GetAimLocation(Target, gameObject, bulletSpeed);
+
+        Vector3 dir = (transform.position + aimPos) - transform.position;
+        dir.Normalize();
+        float zAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
+        Quaternion desiredRot = Quaternion.Euler(0, 0, zAngle);
+        Child_Gun.transform.rotation = Quaternion.RotateTowards(Child_Gun.transform.rotation, desiredRot, rotSpeed * Time.deltaTime);
+    }
+
 }

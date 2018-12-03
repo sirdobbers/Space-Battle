@@ -12,8 +12,8 @@ public class Missle : MonoBehaviour
     float explosionRadius = 50f;
     float rotSpeed = 50; // per second
 
-    GameObject target = null; //accessed via SetTarget by other classes that fire missles
-    Vector3 offsetVel = new Vector3(0,0,0); //accessed via SetTarget by other classes that fire missles
+    GameObject target = null; //set via SetTarget by other classes
+    Vector3 offsetVel = new Vector3(0,0,0); //set via SetOffsetVel by other classes
     float lifeTimeTimer;
     ContactPoint2D[] cp = new ContactPoint2D[10];
 
