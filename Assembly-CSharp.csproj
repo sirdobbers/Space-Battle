@@ -61,6 +61,7 @@
      <Compile Include="Assets\DamageHandler.cs" />
      <Compile Include="Assets\EnemySpawner.cs" />
      <Compile Include="Assets\FixedGun.cs" />
+     <Compile Include="Assets\HealthBar.cs" />
      <Compile Include="Assets\Missle.cs" />
      <Compile Include="Assets\Particle_Impact.cs" />
      <Compile Include="Assets\Ship.cs" />

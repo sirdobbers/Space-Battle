@@ -32,7 +32,7 @@ public class FixedGun : MonoBehaviour {
     Vector3 vel;
     
     float cooldownTimer = 0;
-    
+
     private List<Collider2D> colliders = new List<Collider2D>();
 
     void Start() {

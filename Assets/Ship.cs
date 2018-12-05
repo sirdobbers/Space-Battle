@@ -50,9 +50,6 @@ public class Ship : MonoBehaviour {
             Target_Ship = GameObject.FindGameObjectWithTag("Player");
         }
 
-        gameObject.GetComponent<DamageHandler>().SetHP(hp);
-        gameObject.GetComponent<DamageHandler>().SetArmor(armor);
-
         // add turrets and guns to lists
         foreach (Transform child in transform) {
             if (child.gameObject.tag == "Turret") {
