@@ -9,7 +9,11 @@ public class BulletPrediction2 : MonoBehaviour {
 
     public Vector3 GetAimLocation(GameObject Target, GameObject Self, float bulletSpeed) {
         Vector3 relPos = Target.transform.position - Self.transform.position;
-        Vector3 relVel = Target.GetComponent<Ship>().GetVel() - Self.GetComponentInParent<Ship>().GetVel();
+        Vector3 myVel= new Vector3(0,0,0);
+        if (Self.GetComponentInParent<Ship>() != null) {
+            myVel = Self.GetComponentInParent<Ship>().GetVel();
+        }
+        Vector3 relVel = Target.GetComponent<Ship>().GetVel() - myVel;
 
         float px = relPos.x;
         float py = relPos.y;

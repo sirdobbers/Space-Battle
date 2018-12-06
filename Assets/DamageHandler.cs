@@ -6,21 +6,27 @@ public class DamageHandler : MonoBehaviour {
     float startArmor;
     float startHealth;
 
-    float armor;
-    float health;
+    public float armor = 10;
+    public float health = 10;
 
     public GameObject DestroyEffectPrefab;
 
     HealthBar HPBar;
-    
+
     void Start() {
-        armor = gameObject.GetComponent<Ship>().armor;
-        health = gameObject.GetComponent<Ship>().hp;
+        if (gameObject.GetComponent<Ship>() != null) {
+            armor = gameObject.GetComponent<Ship>().armor;
+            health = gameObject.GetComponent<Ship>().hp;
+        }
 
         startArmor = armor;
         startHealth = health;
 
-        HPBar = transform.GetComponentInChildren<HealthBar>();
+        foreach (Transform child in transform) {
+            if (child.gameObject.name == "HealthBar") {
+                HPBar = child.GetComponent<HealthBar>();
+            }
+        }
     }
 
     void Update() {

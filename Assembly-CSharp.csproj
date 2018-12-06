@@ -59,6 +59,7 @@
      <Compile Include="Assets\BulletPrediction2.cs" />
      <Compile Include="Assets\CameraHandler.cs" />
      <Compile Include="Assets\DamageHandler.cs" />
+     <Compile Include="Assets\DefenseTower.cs" />
      <Compile Include="Assets\EnemySpawner.cs" />
      <Compile Include="Assets\FixedGun.cs" />
      <Compile Include="Assets\HealthBar.cs" />

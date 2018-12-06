@@ -7,26 +7,26 @@ public class HealthBar : MonoBehaviour {
     
     DamageHandler DamageScript;
 
-    GameObject Parent_Ship;
-    float ShipScale;
+    GameObject Parent;
+    float Scale;
     //float startHP;
     //float startArmor;
     Image HPBar;
     Image ArmorBar;
     Image BGBar;
 
-    float alpha;
+    public float alpha;
     float timeTillInvis = 10f; //seconds
     float timer = 0f;
 
     // Use this for initialization
     void Start () {
-        Parent_Ship = transform.parent.gameObject;
-        ShipScale = Parent_Ship.transform.localScale.magnitude;
+        Parent = transform.parent.gameObject;
+        Scale = Parent.transform.localScale.magnitude;
         HPBar = transform.Find("Background").Find("Health").GetComponent<Image>();
         ArmorBar = transform.Find("Background").Find("Armor").GetComponent<Image>();
         BGBar = transform.Find("Background").GetComponent<Image>();
-        DamageScript = Parent_Ship.GetComponent<DamageHandler>();
+        DamageScript = Parent.GetComponent<DamageHandler>();
         //startHP = DamageScript.GetHP();
         //startArmor = DamageScript.GetArmor();
 
@@ -37,7 +37,7 @@ public class HealthBar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.position = Parent_Ship.transform.position + new Vector3(0, 0.4f * ShipScale, 0);
+        transform.position = Parent.transform.position + new Vector3(0, 0.4f * Scale, 0);
         transform.rotation = new Quaternion(0,0,0,1);
 
         if (timer <= timeTillInvis) {

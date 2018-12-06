@@ -7,6 +7,7 @@ public class CameraHandler : MonoBehaviour {
     //float baseSpeed = 1.5f; //used for lerp
 
     public GameObject target;
+    public bool debug;
 
     Vector3 vel = new Vector3(0, 0, 0);
     Vector3 forw = new Vector3(0, 0, 0);
@@ -53,12 +54,16 @@ public class CameraHandler : MonoBehaviour {
     }
 
     void OnDrawGizmos() {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(target.transform.position + vel, 0.2f);
-        Gizmos.DrawSphere(target.transform.position + forw, 0.2f);
+        if (target != null & debug == true) {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(target.transform.position + vel + forw, 0.2f);
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(target.transform.position + vel + forw, 0.2f);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(target.transform.position + forw, 0.2f);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(target.transform.position + vel, 0.2f);
+        }
     }
     
 }

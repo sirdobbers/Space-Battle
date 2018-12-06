@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public enum BColor
-    {
-        green, blue, red
-    }
-
     float dmg = 4f;
     float pen = 0f; //0 no pen ... 1 is full pen
     float speed = 6f; // per second
     float acc = 0.0f;
     float travelTime = 10; //seconds
-    BColor bulletColor = BColor.blue;
     
     Vector3 offsetVel; //set via SetTarget by other classes that fire bullets
     ContactPoint2D[] cp = new ContactPoint2D[10];
@@ -56,11 +50,14 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SetVals(float dmg, float pen, float speed, float acc, float travelTime) {
+    public void SetVals(float dmg, float pen, float speed, float acc, float travelTime, Vector3 trailColor) {
         this.dmg = dmg;
         this.pen = pen;
         this.speed = speed;
         this.acc = acc;
         this.travelTime = travelTime;
+        trailColor = trailColor / 255;
+        gameObject.GetComponent<TrailRenderer>().startColor = new Color(trailColor.x, trailColor.y, trailColor.z,1);
+        gameObject.GetComponent<TrailRenderer>().endColor = new Color(trailColor.x, trailColor.y, trailColor.z, 0);
     }
 }

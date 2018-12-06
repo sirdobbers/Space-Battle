@@ -22,6 +22,7 @@ public class FixedGun : MonoBehaviour {
     public float projectileAcceleration = 0.2f;
     public float projectileFlightTime = 10f;
     public float fireDelay = 0.5f;
+    public Vector3 bulletColor = new Vector3(0,0,255);
     public GameObject MisslePrefab; //eventually remove the need for this
     public GameObject BulletPrefab; //eventually remove the need for this
 
@@ -81,7 +82,7 @@ public class FixedGun : MonoBehaviour {
 
     public void Fire() {
         if (ReadyFire()) {
-            if (Parent_Ship != null) { vel = Parent_Ship.GetComponent<Ship>().GetVel(); }
+            if (Parent_Ship.GetComponent<Ship>() != null) { vel = Parent_Ship.GetComponent<Ship>().GetVel(); }
             Vector3 offsetPos = transform.rotation * fireOffset + vel;
             if (type == TurretType.Missle) {
                 GameObject missle = (GameObject)Instantiate(MisslePrefab, transform.position + offsetPos, transform.rotation);
@@ -94,7 +95,7 @@ public class FixedGun : MonoBehaviour {
                 GameObject bullet = (GameObject)Instantiate(BulletPrefab, transform.position + offsetPos, transform.rotation);
                 bullet.GetComponent<Bullet>().SetOffsetVel(vel);
                 bullet.layer = gameObject.layer;
-                bullet.GetComponent<Bullet>().SetVals(projectileDamage, projectilePenetration, projectileInitSpeed, projectileAcceleration, projectileFlightTime);
+                bullet.GetComponent<Bullet>().SetVals(projectileDamage, projectilePenetration, projectileInitSpeed, projectileAcceleration, projectileFlightTime,bulletColor);
             }
         }
     }

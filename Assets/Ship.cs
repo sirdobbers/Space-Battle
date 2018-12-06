@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour {
     #region Variables
-    public enum Control
-    {
+    public enum Control {
         AI, Player, GenericPlayer, GenericAI
     }
-    
+
     public string shipName = "No_Name";
     public Control control = Control.AI;
     public float acceleration = 0.1f; // units per second
@@ -17,12 +16,15 @@ public class Ship : MonoBehaviour {
     public float dampening = 0.005f;
     public float hp = 10f;
     public float armor = 10f;
+    public int team;
     //public float targetScanRange = 100f;
 
     protected GameObject Target;
+    protected List<GameObject> TargetArray = new List<GameObject>();
     protected List<GameObject> TurretArray = new List<GameObject>();
     protected List<GameObject> FixedGunArray = new List<GameObject>();
-    
+
+
     private Quaternion QRot;
     private Vector3 vel = new Vector3(0, 0, 0);
     private Vector3 targDir;
@@ -50,6 +52,8 @@ public class Ship : MonoBehaviour {
             Target = GameObject.FindGameObjectWithTag("Player");
         }
 
+        FindShips();
+
         // ADD TURRET AND GUNS TO ARRAYS
         foreach (Transform child in transform) {
             if (child.gameObject.tag == "Turret") {
@@ -67,8 +71,8 @@ public class Ship : MonoBehaviour {
 
     void Update() {
         // SET GENERIC MOVEMENT CONTROLS IF CONTORL IS GENERIC
-        if (control == Control.GenericPlayer) {GenericPlayerControl();}
-        else if (control == Control.GenericAI) {GenericAIControl();}
+        if (control == Control.GenericPlayer) { GenericPlayerControl(); }
+        else if (control == Control.GenericAI) { GenericAIControl(); }
 
         // DIRECTION AND ANGLE VARIABLES TO BE USED THROUGHOUT
         if (Target != null) {
@@ -82,22 +86,24 @@ public class Ship : MonoBehaviour {
     }
 
     protected void GenericPlayerControl() {
-        // FIRE GUNS
+        // FIRE FIXED GUNS
         if (Input.GetMouseButton(0)) {
             for (int i = 0; i < FixedGunArray.Count; i++) {
                 FixedGunArray[i].GetComponent<FixedGun>().Fire();
             }
         }
+
         // FIRE TURRETS
         if (Input.GetMouseButton(1)) {
             for (int i = 0; i < TurretArray.Count; i++) {
-                TurretArray[i].transform.GetChild(0).GetComponent<FixedGun>().Fire();
+                TurretArray[i].GetComponent<Turret>().Fire();
             }
         }
-        // ROTATE TURRETS
+        // TURN TURRETS
         for (int i = 0; i < TurretArray.Count; i++) {
             TurretArray[i].GetComponent<Turret>().RotateTurretToMouseLocation();
         }
+
         //MOVEMENT
         forward = Input.GetAxis("Throttle");
         rotate = Input.GetAxis("Turn");
@@ -111,22 +117,28 @@ public class Ship : MonoBehaviour {
         // MOVEMENT
         RotateToTarget();
         Translate(1, 0, 0);
-        
+
         // FIRE GUNS
         if (Mathf.Abs(targAngDiff) < 5) {
             for (int i = 0; i < FixedGunArray.Count; i++) {
                 FixedGunArray[i].GetComponent<FixedGun>().Fire();
             }
         }
-        // FIRE TURRETS
+        // ROTATE & FIRE TURRETS
         for (int i = 0; i < TurretArray.Count; i++) {
-            if (TurretArray[i].GetComponent<Turret>().TargetInAng(10f)==true){
-                TurretArray[i].transform.GetChild(0).GetComponent<FixedGun>().Fire();
+            if (Target != null) {
+                Turret T = TurretArray[i].GetComponent<Turret>();
+                T.SetTarget(Target);
+                T.RotateTurretToTarget(true);
+                T.ValidFire();
             }
         }
-        // ROTATE TURRETS
-        for (int i = 0; i < TurretArray.Count; i++) {
-            TurretArray[i].GetComponent<Turret>().RotateTurretToTargetPrediction(Target);
+    }
+    
+    protected void FindShips() {
+        GameObject[] TempArray = GameObject.FindGameObjectsWithTag("AI");
+        for (int i = 0; i < TempArray.Length; i++) {
+            TargetArray.Add(TempArray[i]);
         }
     }
 
