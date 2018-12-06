@@ -109,4 +109,9 @@ public class FixedGun : MonoBehaviour {
     Vector3 GetPos() {
         return transform.position;
     }
+
+    public float GetAng() {
+        return Mathf.Atan2(transform.up.y, transform.up.x) * Mathf.Rad2Deg;
+        
+    }
 }

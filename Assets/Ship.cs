@@ -2,55 +2,55 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/* SHIP
- *      - Set all variables
- *      - Set Sorting layer (all children will join this layer)
- *      
- * 
- * 
- */
-
 
 public class Ship : MonoBehaviour {
+    #region Variables
     public enum Control
     {
-        AI, Player
+        AI, Player, GenericPlayer, GenericAI
     }
-
-    // MOVEMENT VARIABLES
-    public string shipName = "NoName";
+    
+    public string shipName = "No_Name";
     public Control control = Control.AI;
     public float acceleration = 0.1f; // units per second
     public float rotSpeed = 360f; // degrees per second
-    private float dampening = 0.005f;
+    public float dampening = 0.005f;
     public float hp = 10f;
     public float armor = 10f;
-    public float targetScanRange = 100f;
+    //public float targetScanRange = 100f;
 
-    public List<GameObject> TurretArray = new List<GameObject>();
-    public List<GameObject> FixedGunArray = new List<GameObject>();
-    public List<GameObject> ShipArray = new List<GameObject>();
-
-    private Vector3 vel = new Vector3(0, 0, 0);
+    protected GameObject Target;
+    protected List<GameObject> TurretArray = new List<GameObject>();
+    protected List<GameObject> FixedGunArray = new List<GameObject>();
+    
     private Quaternion QRot;
-    private GameObject Target_Ship;
-    private float searchTimer; //use this to rescan every few seconds maybe
+    private Vector3 vel = new Vector3(0, 0, 0);
+    private Vector3 targDir;
+    private Vector3 myDir;
+    private float targAng;
+    private float myAng;
+    private float targAngDiff;
 
-    //directions accessed via method for thruster objects
-    float forward;
-    float rotate;
-    float strafe;
-    float boost;
+    // THRUST DIRECTIONS USED FOR THRUST CLASS
+    private float forward;
+    private float rotate;
+    private float strafe;
+    private float boost;
+    #endregion
 
     void Start() {
-        if (control == Control.Player) {
+        Init();
+    }
+    protected void Init() {
+        if (control == Control.Player || control == Control.GenericPlayer) {
             gameObject.tag = "Player";
         }
         else {
-            Target_Ship = GameObject.FindGameObjectWithTag("Player");
+            gameObject.tag = "AI";
+            Target = GameObject.FindGameObjectWithTag("Player");
         }
 
-        // add turrets and guns to lists
+        // ADD TURRET AND GUNS TO ARRAYS
         foreach (Transform child in transform) {
             if (child.gameObject.tag == "Turret") {
                 TurretArray.Add(child.gameObject);
@@ -65,49 +65,132 @@ public class Ship : MonoBehaviour {
         //PrintInfo();
     }
 
-    void OnTriggerEnter2D(Collider2D HitCollider) {
-        //take dmg as a func of combined vel maybe and bounce off shit
-    }
-
     void Update() {
-        HandleGuns();
-        Move();
+        // SET GENERIC MOVEMENT CONTROLS IF CONTORL IS GENERIC
+        if (control == Control.GenericPlayer) {GenericPlayerControl();}
+        else if (control == Control.GenericAI) {GenericAIControl();}
+
+        // DIRECTION AND ANGLE VARIABLES TO BE USED THROUGHOUT
+        if (Target != null) {
+            targDir = Target.transform.position - transform.position; targDir.Normalize();
+            targAng = Mathf.Atan2(targDir.y, targDir.x) * Mathf.Rad2Deg;
+            myDir = transform.up; myDir.Normalize();
+            myAng = Mathf.Atan2(myDir.y, myDir.x) * Mathf.Rad2Deg;
+            targAngDiff = Mathf.DeltaAngle(targAng, myAng);
+        }
+        QRot = transform.rotation;
     }
 
+    protected void GenericPlayerControl() {
+        // FIRE GUNS
+        if (Input.GetMouseButton(0)) {
+            for (int i = 0; i < FixedGunArray.Count; i++) {
+                FixedGunArray[i].GetComponent<FixedGun>().Fire();
+            }
+        }
+        // FIRE TURRETS
+        if (Input.GetMouseButton(1)) {
+            for (int i = 0; i < TurretArray.Count; i++) {
+                TurretArray[i].transform.GetChild(0).GetComponent<FixedGun>().Fire();
+            }
+        }
+        // ROTATE TURRETS
+        for (int i = 0; i < TurretArray.Count; i++) {
+            TurretArray[i].GetComponent<Turret>().RotateTurretToMouseLocation();
+        }
+        //MOVEMENT
+        forward = Input.GetAxis("Throttle");
+        rotate = Input.GetAxis("Turn");
+        strafe = Input.GetAxis("Strafe");
+        boost = Input.GetAxis("Boost");
+
+        Translate(forward, strafe, boost);
+        Rotate(rotate);
+    }
+    protected void GenericAIControl() {
+        // MOVEMENT
+        RotateToTarget();
+        Translate(1, 0, 0);
+        
+        // FIRE GUNS
+        if (Mathf.Abs(targAngDiff) < 5) {
+            for (int i = 0; i < FixedGunArray.Count; i++) {
+                FixedGunArray[i].GetComponent<FixedGun>().Fire();
+            }
+        }
+        // FIRE TURRETS
+        for (int i = 0; i < TurretArray.Count; i++) {
+            if (TurretArray[i].GetComponent<Turret>().TargetInAng(10f)==true){
+                TurretArray[i].transform.GetChild(0).GetComponent<FixedGun>().Fire();
+            }
+        }
+        // ROTATE TURRETS
+        for (int i = 0; i < TurretArray.Count; i++) {
+            TurretArray[i].GetComponent<Turret>().RotateTurretToTargetPrediction(Target);
+        }
+    }
+
+    #region Movement Methods
+    // TRANSLATION METHOD
     public void Translate(float forward, float strafe, float boost) {
-        QRot = transform.rotation;
-        Vector3 accVec = new Vector3(strafe, forward *(1+boost), 0) * acceleration * Time.deltaTime;
+        this.forward = forward; this.strafe = strafe; this.boost = boost;
+        Vector3 accVec = new Vector3(strafe, forward * (1 + boost), 0) * acceleration * Time.deltaTime;
         vel += QRot * accVec - vel * dampening;
         SetPos(GetPos() + vel);
     }
+    
+    // ROTATION METHODS (next 3 methods)
+    public void RotateToPosition(Vector3 pos) {
+        Vector3 posDir = pos - transform.position; posDir.Normalize();
+        float posAng = Mathf.Atan2(posDir.y, targDir.x) * Mathf.Rad2Deg;
+        float posAngDiff = Mathf.DeltaAngle(posAng, myAng);
+        rotate = Mathf.Clamp(posAngDiff, -1, 1);
 
-    public void Rotate(float turn) {
-        QRot = transform.rotation;
+        Quaternion desiredRot = Quaternion.Euler(0, 0, posAng - 90);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRot, rotSpeed * Time.deltaTime);
+    }
+
+    public void RotateToTarget() {
+        if (Target != null) {
+            Quaternion desiredRot = Quaternion.Euler(0, 0, targAng - 90);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRot, rotSpeed * Time.deltaTime);
+            rotate = Mathf.Clamp(targAngDiff, -1, 1);
+        }
+    }
+
+    public void Rotate(float rotate) {
+        this.rotate = rotate;
         float z = QRot.eulerAngles.z;
-        z -= rotSpeed * Time.deltaTime * turn;
+        z -= rotSpeed * Time.deltaTime * rotate;
         QRot = Quaternion.Euler(0, 0, z);
         transform.rotation = QRot;
     }
+    #endregion
 
-    void SearchForTargets() {
-        //scan in range for enemy ships
-        //target = closest ship
+    #region Getters & Setters
+    public float GetThrust(string dir) {
+        if (dir == "forward") {return forward;}
+        else if (dir == "strafe") {return strafe;}
+        else if (dir == "boost") {return boost;}
+        else if (dir == "rotate") {return rotate;}
+        return 0f;
     }
     
     public GameObject GetTarget() {
-        return Target_Ship;
+        return Target;
+    }
+    public void SetTarget(GameObject T) {
+        Target = T;
+    }
+    public float GetTargetAng() {
+        return targAng;
     }
 
     public Vector3 GetPos() {
         return transform.position;
     }
-
     public void SetPos(Vector3 Pos) {
         transform.position = Pos;
-    }
-
-    public void SetPos(float x, float y) {
-        transform.position = new Vector3(x, y, 0);
     }
 
     public Vector3 GetVel() {
@@ -127,84 +210,9 @@ public class Ship : MonoBehaviour {
         print("  Acceleration: " + acceleration);
         print("  Rotation Speed: " + rotSpeed);
         print("Utility:");
-        print("  Target Scan Range: " + targetScanRange);
+        //print("  Target Scan Range: " + targetScanRange);
     }
-
-    void HandleGuns() {
-        if (control == Control.Player) {
-            //fire turrets and fixed guns
-            if (Input.GetMouseButton(0)) {
-                for (int i = 0; i < FixedGunArray.Count; i++) {
-                    FixedGunArray[i].GetComponent<FixedGun>().Fire();
-                }
-            }
-            if (Input.GetMouseButton(1)) {
-                for (int i = 0; i < TurretArray.Count; i++) {
-                    TurretArray[i].transform.GetChild(0).GetComponent<FixedGun>().Fire();
-                }
-            }
-            //turn turrets
-            for (int i = 0; i < TurretArray.Count; i++) {
-                TurretArray[i].GetComponent<Turret>().RotateTurretToMouseLocation();
-            }
-        }
-        else if (control == Control.AI) {
-            //fire turrets and fixed guns
-            for (int i = 0; i < FixedGunArray.Count; i++) {
-                FixedGunArray[i].GetComponent<FixedGun>().Fire();
-            }
-            for (int i = 0; i < TurretArray.Count; i++) {
-                TurretArray[i].transform.GetChild(0).GetComponent<FixedGun>().Fire();
-            }
-            //turn turrets
-            for (int i = 0; i < TurretArray.Count; i++) {
-                TurretArray[i].GetComponent<Turret>().RotateTurretToTargetPrediction(Target_Ship);
-            }
-        }
-    }
-
-    void Move() {
-        if (control == Control.Player) {
-            // Input definition
-            forward = Input.GetAxis("Throttle");
-            rotate = Input.GetAxis("Turn");
-            strafe = Input.GetAxis("Strafe");
-            boost = Input.GetAxis("Boost");
-
-            Translate(forward, strafe, boost);
-            Rotate(rotate);
-        }
-        else if (control == Control.AI) {
-            //rotate ship at player
-            Vector3 dir = Target_Ship.transform.position - transform.position;
-            dir.Normalize();
-            float zAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
-            Quaternion desiredRot = Quaternion.Euler(0, 0, zAngle);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRot, rotSpeed * Time.deltaTime);
-
-            //translate ship
-            forward = 1f;
-            boost = 0;
-            Translate(forward, 0, boost);
-        }
-    }
-
-    //used by thurster script
-    public float GetThrust(string dir) {
-        if (dir == "forward") {
-            return forward;
-        }
-        else if (dir == "strafe") {
-            return strafe;
-        }
-        else if (dir == "boost") {
-            return boost;
-        }
-        else if (dir == "rotate") {
-            return rotate;
-        }
-        return 0f;
-    }
+    #endregion
 }
 
 

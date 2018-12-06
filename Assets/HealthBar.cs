@@ -31,10 +31,8 @@ public class HealthBar : MonoBehaviour {
         //startArmor = DamageScript.GetArmor();
 
         gameObject.GetComponent<Canvas>().sortingLayerName = "UI";
-    }
 
-    void LateStart() {
-
+        timer = timeTillInvis;
     }
 	
 	// Update is called once per frame
@@ -42,12 +40,12 @@ public class HealthBar : MonoBehaviour {
         transform.position = Parent_Ship.transform.position + new Vector3(0, 0.4f * ShipScale, 0);
         transform.rotation = new Quaternion(0,0,0,1);
 
-        if (timer*Time.deltaTime < timeTillInvis + 1) {
-            alpha = (255 - (255 / timeTillInvis) * timer * Time.deltaTime)*4/255;
+        if (timer <= timeTillInvis) {
+            alpha = (1 - (1 / timeTillInvis) * (timer*4 - timeTillInvis*2));
             HPBar.color = new Color(HPBar.color.r, HPBar.color.g, HPBar.color.b, alpha);
             ArmorBar.color = new Color(ArmorBar.color.r, ArmorBar.color.g, ArmorBar.color.b, alpha);
             BGBar.color = new Color(BGBar.color.r, BGBar.color.g, BGBar.color.b, alpha);
-            timer++;
+            timer+= 1 * Time.deltaTime;
         }
         
     }

@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/* Modular Turret script -> prefab
+/* Modular Turret script : Component of prefab Turret
  *      - Place Turret on object
  *      - Set its type through its child prefab "fixedGun" (gun, missle, laser)
- * 
- * 
  * 
  */
 
 public class Turret : MonoBehaviour {
     public float rotSpeed = 90f;
 
-    GameObject Parent_Ship;
-    GameObject Child_Gun;
+    private GameObject Parent_Ship;
+    private GameObject Child_Gun;
+    private Vector3 aimPos; //for predicted location
     
     void Start() {
         Parent_Ship = transform.parent.gameObject;
@@ -29,8 +28,7 @@ public class Turret : MonoBehaviour {
     void Update () {
         
     }
-
-
+    
     public void RotateTurretToMouseLocation() {
         Vector3 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - Child_Gun.transform.position;
         float zAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90;
@@ -49,7 +47,7 @@ public class Turret : MonoBehaviour {
     public void RotateTurretToTargetPrediction(GameObject Target) {
         
         float bulletSpeed = Child_Gun.GetComponent<FixedGun>().projectileInitSpeed * Time.deltaTime;
-        Vector3 aimPos = gameObject.GetComponent<BulletPrediction2>().GetAimLocation(Target, gameObject, bulletSpeed);
+        aimPos = gameObject.GetComponent<BulletPrediction2>().GetAimLocation(Target, gameObject, bulletSpeed);
 
         Vector3 dir = (transform.position + aimPos) - transform.position;
         dir.Normalize();
@@ -57,5 +55,19 @@ public class Turret : MonoBehaviour {
         Quaternion desiredRot = Quaternion.Euler(0, 0, zAngle);
         Child_Gun.transform.rotation = Quaternion.RotateTowards(Child_Gun.transform.rotation, desiredRot, rotSpeed * Time.deltaTime);
     }
+    
+    //CHECKS TO SEE IF THE PREDICTED TARGET POSITION IS WITHIN A BEARING
+    public bool TargetInAng(float a) {
+        Vector3 turretDir = Child_Gun.transform.up; //get turret forward dir
+        float turretAng = Mathf.Atan2(turretDir.y, turretDir.x) * Mathf.Rad2Deg; //get that ang
 
+        Vector3 predTargDir = (transform.position + aimPos) - transform.position; predTargDir.Normalize(); //get pred target dir rel to gun
+        float predTargAng = Mathf.Atan2(predTargDir.y, predTargDir.x) * Mathf.Rad2Deg; //get that ang
+
+        float angDiff = Mathf.DeltaAngle(turretAng, predTargAng);
+        if (Mathf.Abs(angDiff) < a) {
+            return true;
+        }
+        return false;
+    }
 }

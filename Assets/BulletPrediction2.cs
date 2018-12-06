@@ -36,6 +36,7 @@ public class BulletPrediction2 : MonoBehaviour {
         return relPos + relVel * t;
     }
 
+
     /*
     public Vector3 GetAimLocation(Vector3 t_RelPos, Vector3 t_RelVel, float bulletSpeed) {
         float px = t_RelPos.x;

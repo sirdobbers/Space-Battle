@@ -6,7 +6,6 @@ public class DamageHandler : MonoBehaviour {
     float startArmor;
     float startHealth;
 
-
     float armor;
     float health;
 

@@ -63,8 +63,10 @@
      <Compile Include="Assets\FixedGun.cs" />
      <Compile Include="Assets\HealthBar.cs" />
      <Compile Include="Assets\Missle.cs" />
+     <Compile Include="Assets\MouseSelect.cs" />
      <Compile Include="Assets\Particle_Impact.cs" />
      <Compile Include="Assets\Ship.cs" />
+     <Compile Include="Assets\Ship_Valiant.cs" />
      <Compile Include="Assets\Thurster.cs" />
      <Compile Include="Assets\TrailHandler.cs" />
      <Compile Include="Assets\Turret.cs" />
