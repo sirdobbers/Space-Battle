@@ -23,7 +23,7 @@ public class Thurster : MonoBehaviour {
     void Start () {
         initScale = transform.localScale;
         Parent = transform.parent.gameObject;
-        gameObject.GetComponent<SpriteRenderer>().sortingLayerID = Parent.GetComponent<SpriteRenderer>().sortingLayerID;
+        //gameObject.GetComponent<SpriteRenderer>().sortingLayerID = Parent.GetComponent<SpriteRenderer>().sortingLayerID;
     }
 	
 	void Update () {

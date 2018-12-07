@@ -17,7 +17,8 @@ public class Bullet : MonoBehaviour
     public GameObject ImpactEffectPrefab; //set prefab in inspector
 
     void Start() {
-        gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Front";
+        gameObject.GetComponent<TrailRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
+        gameObject.GetComponent<TrailRenderer>().sortingOrder = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
     }
 
     void OnTriggerEnter2D(Collider2D HitCollider) {

@@ -9,7 +9,7 @@ public class DefenseTower : MonoBehaviour {
     protected List<GameObject> TurretBaseArray = new List<GameObject>();
 
     void Start () {
-        Target = GameObject.FindGameObjectWithTag("Player");
+        Target = GameObject.FindGameObjectWithTag("Ship");
         
         foreach (Transform child in transform) {
             if (child.gameObject.tag == "TurretBase") {

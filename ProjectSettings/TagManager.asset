@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - AI
   - TurretBase
+  - Ship
   layers:
   - Default
   - TransparentFX
@@ -19,14 +20,14 @@ TagManager:
   - 
   - 
   - Ally
-  - Enemy
   - Background
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Team 0
+  - Team 1
+  - Team 2
+  - Team 3
+  - Team 4
+  - Team 5
+  - Team 6
   - 
   - 
   - 
@@ -46,8 +47,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Enemy Ship
+  - name: Team 0
     uniqueID: 2462409373
+    locked: 0
+  - name: Team 1
+    uniqueID: 286920553
+    locked: 0
+  - name: Team 2
+    uniqueID: 619276017
     locked: 0
   - name: Player Ship
     uniqueID: 58375843

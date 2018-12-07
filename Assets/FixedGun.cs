@@ -26,7 +26,7 @@ public class FixedGun : MonoBehaviour {
     public GameObject MisslePrefab; //eventually remove the need for this
     public GameObject BulletPrefab; //eventually remove the need for this
 
-    GameObject Parent_Ship;
+    GameObject Parent;
     GameObject MissleTarget;
     
     Vector3 fireOffset = new Vector3(0f, 0.4f, 0f);
@@ -40,17 +40,15 @@ public class FixedGun : MonoBehaviour {
         if (transform.parent.tag == "Turret") {
             Vector3 scale = Vector3.Scale(transform.parent.transform.parent.transform.localScale, transform.parent.transform.localScale);
             fireOffset = Vector3.Scale(fireOffset, scale);
-            Parent_Ship = transform.parent.gameObject.transform.parent.gameObject;
+            Parent = transform.parent.gameObject.transform.parent.gameObject;
+            gameObject.GetComponent<SpriteRenderer>().sortingOrder = Parent.GetComponent<SpriteRenderer>().sortingOrder + 2;
         }
         else {
             fireOffset = Vector3.Scale(fireOffset, transform.parent.transform.localScale);
-            Parent_Ship = transform.parent.gameObject;
+            Parent = transform.parent.gameObject;
+            gameObject.GetComponent<SpriteRenderer>().sortingOrder = Parent.GetComponent<SpriteRenderer>().sortingOrder + 1;
         }
-        
-        //set physics layer and local render layer
-        gameObject.layer = Parent_Ship.layer;
-        gameObject.GetComponent<SpriteRenderer>().sortingLayerID=Parent_Ship.GetComponent<SpriteRenderer>().sortingLayerID;
-        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+        //gameObject.GetComponent<SpriteRenderer>().sortingLayerID = Parent.GetComponent<SpriteRenderer>().sortingLayerID;
     }
 
     //not working atm dunno why (supposed to detect if object enter child collider2D component)
@@ -82,19 +80,22 @@ public class FixedGun : MonoBehaviour {
 
     public void Fire() {
         if (ReadyFire()) {
-            if (Parent_Ship.GetComponent<Ship>() != null) { vel = Parent_Ship.GetComponent<Ship>().GetVel(); }
+            if (Parent.GetComponent<Ship>() != null) { vel = Parent.GetComponent<Ship>().GetVel(); }
             Vector3 offsetPos = transform.rotation * fireOffset + vel;
             if (type == TurretType.Missle) {
                 GameObject missle = (GameObject)Instantiate(MisslePrefab, transform.position + offsetPos, transform.rotation);
                 missle.GetComponent<Missle>().SetOffsetVel(vel);
                 if (MissleTarget != null) {missle.GetComponent<Missle>().SetTarget(MissleTarget);}
                 missle.layer = gameObject.layer;
+                missle.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
                 missle.GetComponent<Missle>().SetVals(projectileDamage, projectilePenetration, projectileInitSpeed, projectileAcceleration, projectileFlightTime);
             }
             else if (type == TurretType.Gun) {
                 GameObject bullet = (GameObject)Instantiate(BulletPrefab, transform.position + offsetPos, transform.rotation);
                 bullet.GetComponent<Bullet>().SetOffsetVel(vel);
                 bullet.layer = gameObject.layer;
+                bullet.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
+                bullet.GetComponent<SpriteRenderer>().sortingOrder = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
                 bullet.GetComponent<Bullet>().SetVals(projectileDamage, projectilePenetration, projectileInitSpeed, projectileAcceleration, projectileFlightTime,bulletColor);
             }
         }

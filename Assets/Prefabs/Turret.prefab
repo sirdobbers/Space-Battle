@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4956016308194978}
   - component: {fileID: 212965086064650290}
   - component: {fileID: 114985930525886176}
+  - component: {fileID: 114004676215801326}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Turret
@@ -72,6 +73,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114004676215801326
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403301027216554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069147902310a0b46abdceeeebf44c90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114297940558400720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,7 +96,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  projectileDamage: 4
+  projectilePenetration: 0
+  projectileInitSpeed: 6
+  projectileAcceleration: 0.2
+  projectileFlightTime: 10
   fireDelay: 0.5
+  bulletColor: {x: 0, y: 0, z: 255}
   MisslePrefab: {fileID: 1573895260450220, guid: 23a8ff912e9e861458182c94985e24da,
     type: 2}
   BulletPrefab: {fileID: 1159157506414710, guid: 24a1c287e6451324cb9c2a95703bc48d,
@@ -101,6 +119,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotSpeed: 80
+  rotateRange: 360
+  targetRange: 40
+  debug: 0
 --- !u!212 &212117871121962160
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -135,7 +156,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300010, guid: bf4c0f80b076e664b91682491a37b735, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -181,7 +202,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300008, guid: bf4c0f80b076e664b91682491a37b735, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

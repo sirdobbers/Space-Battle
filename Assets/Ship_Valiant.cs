@@ -4,13 +4,40 @@ using UnityEngine;
 
 public class Ship_Valiant : Ship {
 
+    float shieldLength = 5;
+    float shieldCooldown = 20;
+    float shieldTimer = 0;
+    bool shieldActive = false;
+
+    public GameObject ShieldEffectPrefab;
+    GameObject shield;
+
     void Start() {
         base.Init();
     }
 	
 	void Update () {
         base.GenericPlayerControl();
+        HandleShield();
+        
 	}
+
+    public void HandleShield() {
+        if (Input.GetKeyDown(KeyCode.X) & shieldTimer <= 0) {
+            shieldActive = true;
+            shieldTimer = shieldCooldown;
+            shield = Instantiate(ShieldEffectPrefab, transform);
+        }
+        else {
+            shieldTimer -= Time.deltaTime;
+            if (shieldActive & shieldTimer < shieldCooldown - shieldLength) {
+                shieldActive = false;
+                Destroy(shield);
+            }
+        }
+
+        GetComponent<DamageHandler>().canTakeDmg = !shieldActive;
+    }
 
     /* HANDLE GUNS AND MOVE
     void HandleGuns() {

@@ -16,7 +16,7 @@ public class HealthBar : MonoBehaviour {
     Image BGBar;
 
     public float alpha;
-    float timeTillInvis = 10f; //seconds
+    public float timeTillInvis = 10f; //seconds
     float timer = 0f;
 
     // Use this for initialization

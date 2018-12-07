@@ -16,7 +16,6 @@ public class Ship : MonoBehaviour {
     public float dampening = 0.005f;
     public float hp = 10f;
     public float armor = 10f;
-    public int team;
     //public float targetScanRange = 100f;
 
     protected GameObject Target;
@@ -32,6 +31,7 @@ public class Ship : MonoBehaviour {
     private float targAng;
     private float myAng;
     private float targAngDiff;
+    private float searchTimer;
 
     // THRUST DIRECTIONS USED FOR THRUST CLASS
     private float forward;
@@ -44,15 +44,6 @@ public class Ship : MonoBehaviour {
         Init();
     }
     protected void Init() {
-        if (control == Control.Player || control == Control.GenericPlayer) {
-            gameObject.tag = "Player";
-        }
-        else {
-            gameObject.tag = "AI";
-            Target = GameObject.FindGameObjectWithTag("Player");
-        }
-
-        FindShips();
 
         // ADD TURRET AND GUNS TO ARRAYS
         foreach (Transform child in transform) {
@@ -64,12 +55,27 @@ public class Ship : MonoBehaviour {
             }
         }
 
-        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
-
-        //PrintInfo();
+        //gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int)transform.position.z;
     }
 
     void Update() {
+        boost = 0;
+        strafe = 0;
+        rotate = 0;
+        forward = 0;
+        //searchTimer for ships and set target to nearest ship that is of another team
+        if (searchTimer <= 0) {
+            FindShips();
+            searchTimer = 5f;
+        }
+        else {
+            searchTimer -= Time.deltaTime;
+        }
+        if (Target==null & TargetArray.Count > 0) {
+            FindShips();
+        }
+
+
         // SET GENERIC MOVEMENT CONTROLS IF CONTORL IS GENERIC
         if (control == Control.GenericPlayer) { GenericPlayerControl(); }
         else if (control == Control.GenericAI) { GenericAIControl(); }
@@ -83,6 +89,7 @@ public class Ship : MonoBehaviour {
             targAngDiff = Mathf.DeltaAngle(targAng, myAng);
         }
         QRot = transform.rotation;
+
     }
 
     protected void GenericPlayerControl() {
@@ -136,10 +143,37 @@ public class Ship : MonoBehaviour {
     }
     
     protected void FindShips() {
-        GameObject[] TempArray = GameObject.FindGameObjectsWithTag("AI");
-        for (int i = 0; i < TempArray.Length; i++) {
-            TargetArray.Add(TempArray[i]);
+        GameObject[] TempArray = GameObject.FindGameObjectsWithTag("Ship");
+        foreach (GameObject go in TempArray) {
+            if (go.GetComponent<Ship>() != null & !go.Equals(this.gameObject)) {
+                if (go.GetComponent<Ship>().gameObject.layer != gameObject.layer) {
+                    TargetArray.Add(go);
+                }
+            }
         }
+        if (TargetArray.Count > 0) {
+            Target = TargetArray[0];
+
+            for (int i = 0; i < TargetArray.Count; i++) {
+                GameObject go = TargetArray[i];
+                if (go == null) {
+                    TargetArray.Remove(go);
+                }
+                else if (Target == null) {
+                    Target = go;
+                }
+                else {
+                    float targDist = Vector3.Distance(Target.transform.position, transform.position);
+                    float newTempDist = Vector3.Distance(go.transform.position, transform.position);
+
+                    if (newTempDist < targDist) {
+                        Target = go;
+                    }
+                }
+            }
+        }
+        //print(name + ":");
+        //print(TargetArray.Count);
     }
 
     #region Movement Methods

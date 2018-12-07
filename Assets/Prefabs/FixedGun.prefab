@@ -53,7 +53,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  projectileDamage: 4
+  projectilePenetration: 0
+  projectileInitSpeed: 6
+  projectileAcceleration: 0.2
+  projectileFlightTime: 20
   fireDelay: 0.5
+  bulletColor: {x: 0, y: 0, z: 255}
   MisslePrefab: {fileID: 1573895260450220, guid: 23a8ff912e9e861458182c94985e24da,
     type: 2}
   BulletPrefab: {fileID: 1159157506414710, guid: 24a1c287e6451324cb9c2a95703bc48d,
@@ -92,7 +98,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300010, guid: bf4c0f80b076e664b91682491a37b735, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

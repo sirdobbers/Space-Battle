@@ -10,6 +10,7 @@ public class DamageHandler : MonoBehaviour {
     public float health = 10;
 
     public GameObject DestroyEffectPrefab;
+    public bool canTakeDmg = true;
 
     HealthBar HPBar;
 
@@ -41,12 +42,14 @@ public class DamageHandler : MonoBehaviour {
     }
 
     public void TakeDamage(float dmg, float pen) {
-        float armorDMG = Mathf.Clamp(dmg, 0, armor);
-        health -= armorDMG * pen + Mathf.Max(0, dmg - armor);
-        armor -= armorDMG;
+        if (canTakeDmg) {
+            float armorDMG = Mathf.Clamp(dmg, 0, armor);
+            health -= armorDMG * pen + Mathf.Max(0, dmg - armor);
+            armor -= armorDMG;
 
-        if (HPBar != null) {
-            HPBar.Hit();
+            if (HPBar != null) {
+                HPBar.Hit();
+            }
         }
     }
 

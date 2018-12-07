@@ -251,6 +251,7 @@ MonoBehaviour:
   projectileAcceleration: 0.2
   projectileFlightTime: 10
   fireDelay: 0.5
+  bulletColor: {x: 0, y: 0, z: 255}
   MisslePrefab: {fileID: 1573895260450220, guid: 23a8ff912e9e861458182c94985e24da,
     type: 2}
   BulletPrefab: {fileID: 1159157506414710, guid: 24a1c287e6451324cb9c2a95703bc48d,
@@ -267,6 +268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alpha: 0
+  timeTillInvis: 10
 --- !u!114 &114260770758602580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -363,6 +365,7 @@ MonoBehaviour:
   health: 15
   DestroyEffectPrefab: {fileID: 1486832452894936, guid: 35fbf303476ecb4498dd9572fc7c1610,
     type: 2}
+  canTakeDmg: 1
 --- !u!114 &114767683698657708
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -439,7 +442,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300020, guid: bf4c0f80b076e664b91682491a37b735, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -485,7 +488,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300008, guid: bf4c0f80b076e664b91682491a37b735, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

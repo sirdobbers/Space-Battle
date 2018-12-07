@@ -14,7 +14,7 @@ public class Turret : MonoBehaviour {
     public float targetRange = 20;
     public bool debug = false;
 
-    private GameObject Parent_Ship;
+    private GameObject Parent;
     private GameObject Child_Gun;
     private GameObject Target;
     private Vector3 predictedAimPos;
@@ -24,13 +24,12 @@ public class Turret : MonoBehaviour {
 
 
     void Start() {
-        Parent_Ship = transform.parent.gameObject;
+        Parent = transform.parent.gameObject;
         Child_Gun = transform.GetChild(0).gameObject;
 
         //set physics layer and local render layer
-        gameObject.layer = Parent_Ship.layer;
-        gameObject.GetComponent<SpriteRenderer>().sortingLayerID = Parent_Ship.GetComponent<SpriteRenderer>().sortingLayerID;
-        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        //gameObject.GetComponent<SpriteRenderer>().sortingLayerID = Parent.GetComponent<SpriteRenderer>().sortingLayerID;
+        //gameObject.GetComponent<SpriteRenderer>().sortingOrder = Parent.GetComponent<SpriteRenderer>().sortingOrder + 1;
 
         bulletSpeed = Child_Gun.GetComponent<FixedGun>().projectileInitSpeed;
     }
