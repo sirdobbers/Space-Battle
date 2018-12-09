@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ArmorDmgIndicator.cs" />
      <Compile Include="Assets\BackgroundParticles.cs" />
      <Compile Include="Assets\Bullet.cs" />
      <Compile Include="Assets\BulletPrediction.cs" />
@@ -64,9 +65,12 @@
      <Compile Include="Assets\FixedGun.cs" />
      <Compile Include="Assets\HealthBar.cs" />
      <Compile Include="Assets\Missle.cs" />
+     <Compile Include="Assets\MissleTargetter.cs" />
      <Compile Include="Assets\MouseSelect.cs" />
      <Compile Include="Assets\Particle_Impact.cs" />
      <Compile Include="Assets\Ship.cs" />
+     <Compile Include="Assets\Ship_Armor.cs" />
+     <Compile Include="Assets\Ship_Big.cs" />
      <Compile Include="Assets\Ship_Valiant.cs" />
      <Compile Include="Assets\Thurster.cs" />
      <Compile Include="Assets\TrailHandler.cs" />

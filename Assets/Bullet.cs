@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D HitCollider) {
         if (HitCollider.gameObject.GetComponent<DamageHandler>() != null) {
-            HitCollider.gameObject.GetComponent<DamageHandler>().TakeDamage(dmg, pen);
+            HitCollider.gameObject.GetComponent<DamageHandler>().TakeDamage(dmg+dmg*Random.Range(-0.1f,0.1f), pen);
             Explode();
         }
     }

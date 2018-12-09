@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4135802335683552}
   - component: {fileID: 212581498198199960}
-  - component: {fileID: 114310119283918296}
+  - component: {fileID: 114506729977701222}
   m_Layer: 0
   m_Name: ThrustEffect
   m_TagString: Untagged
@@ -41,7 +41,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114310119283918296
+--- !u!114 &114506729977701222
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -52,7 +52,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41570b98234c8fc44bdea7c8282ac332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Parent: {fileID: 0}
   Dir: 0
 --- !u!212 &212581498198199960
 SpriteRenderer:

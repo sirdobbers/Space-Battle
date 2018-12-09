@@ -24,10 +24,10 @@ public class Particle_Impact : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-        if (timer > duration / Time.deltaTime) {
+        if (timer > duration) {
             Destroy(gameObject);
         }
-        timer++;
+        timer+= Time.deltaTime;
 	}
 
     public void SetOffsetVel(Vector3 off) {

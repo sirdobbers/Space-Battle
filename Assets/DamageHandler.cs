@@ -35,7 +35,8 @@ public class DamageHandler : MonoBehaviour {
             GameObject go = Instantiate(DestroyEffectPrefab, transform.position, transform.rotation);
             Vector3 shipScale = gameObject.transform.localScale;
             go.transform.localScale = shipScale*0.4f;
-            go.transform.GetChild(0).transform.localScale = shipScale*0.4f;
+            go.transform.GetChild(0).transform.localScale = shipScale * 0.4f;
+            
             //go.GetComponent<Particle_Impact>().Init(2, float scale);
             Destroy(gameObject);
         }
