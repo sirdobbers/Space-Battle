@@ -16,6 +16,10 @@ public class Ship : MonoBehaviour {
     public float dampening = 0.005f;
     public float hp = 10f;
     public float armor = 10f;
+<<<<<<< HEAD
+=======
+    //public float targetScanRange = 100f;
+>>>>>>> parent of 503e910... full scale battles,
 
     protected ShipScanner Scanner;
     protected GameObject Target;
@@ -24,6 +28,7 @@ public class Ship : MonoBehaviour {
     protected List<GameObject> FixedGunArray = new List<GameObject>();
 
 
+<<<<<<< HEAD
     protected Quaternion QRot;
     protected Vector3 vel = new Vector3(0, 0, 0);
     protected Vector3 targDir;
@@ -34,6 +39,16 @@ public class Ship : MonoBehaviour {
     protected float targAngDiff;
     protected float searchTimer;
     protected float maxRange = 50f;
+=======
+    private Quaternion QRot;
+    private Vector3 vel = new Vector3(0, 0, 0);
+    private Vector3 targDir;
+    private Vector3 myDir;
+    private float targAng;
+    private float myAng;
+    private float targAngDiff;
+    private float searchTimer;
+>>>>>>> parent of 503e910... full scale battles,
 
     // THRUST DIRECTIONS USED FOR THRUST CLASS
     private float forward;
@@ -42,11 +57,16 @@ public class Ship : MonoBehaviour {
     private float boost;
     #endregion
 
-    void Start() {CStart();}
-    void Update() {CUpdate();}
+    void Start() {
+        Init();
+    }
+    protected void Init() {
 
+<<<<<<< HEAD
     protected void CStart() {
         Scanner = gameObject.GetComponent<ShipScanner>();
+=======
+>>>>>>> parent of 503e910... full scale battles,
         // ADD TURRET AND GUNS TO ARRAYS
         foreach (Transform child in transform) {
             if (child.gameObject.tag == "Turret") {
@@ -57,27 +77,33 @@ public class Ship : MonoBehaviour {
             }
         }
 
-        if (gameObject.layer == 11) {
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0.2f, 0.2f);
-        }
-        else {
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(0.2f, 1, 1);
-        }
-
         //gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int)transform.position.z;
     }
 
-    protected void CUpdate() {
-        boost = 0; strafe = 0; rotate = 0; forward = 0;
+    void Update() {
+        boost = 0;
+        strafe = 0;
+        rotate = 0;
+        forward = 0;
+        //searchTimer for ships and set target to nearest ship that is of another team
+        if (searchTimer <= 0) {
+            FindShips();
+            searchTimer = 5f;
+        }
+        else {
+            searchTimer -= Time.deltaTime;
+        }
+        if (Target==null & TargetArray.Count > 0) {
+            FindShips();
+        }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 503e910... full scale battles,
         // SET GENERIC MOVEMENT CONTROLS IF CONTORL IS GENERIC
-        if (control == Control.GenericPlayer) {
-            GenericPlayerControl();
-        }
-        else if (control == Control.GenericAI) {
-            GenericAIMovementControl();
-            GenericAITurretControl();
-        }
+        if (control == Control.GenericPlayer) { GenericPlayerControl(); }
+        else if (control == Control.GenericAI) { GenericAIControl(); }
 
         // DIRECTION AND ANGLE VARIABLES TO BE USED THROUGHOUT
         if (Target != null) {
@@ -87,8 +113,8 @@ public class Ship : MonoBehaviour {
             myAng = Mathf.Atan2(myDir.y, myDir.x) * Mathf.Rad2Deg;
             targAngDiff = Mathf.DeltaAngle(targAng, myAng);
         }
-
         QRot = transform.rotation;
+
     }
 
     protected void GenericPlayerControl() {
@@ -119,6 +145,7 @@ public class Ship : MonoBehaviour {
         Translate(forward, strafe, boost);
         Rotate(rotate);
     }
+<<<<<<< HEAD
     protected void GenericAIMovementControl() {
         Scanner.ScanInInterval(5f);
         Target = Scanner.ClosestShip;
@@ -126,6 +153,14 @@ public class Ship : MonoBehaviour {
         Translate(1*Random.Range(0.5f,1.5f), 0, 0);
     }
     protected void GenericAITurretControl() {
+=======
+    protected void GenericAIControl() {
+        // MOVEMENT
+        RotateToTarget();
+        Translate(1, 0, 0);
+
+        // FIRE GUNS
+>>>>>>> parent of 503e910... full scale battles,
         if (Mathf.Abs(targAngDiff) < 5) {
             for (int i = 0; i < FixedGunArray.Count; i++) {
                 FixedGunArray[i].GetComponent<FixedGun>().Fire();
@@ -136,6 +171,7 @@ public class Ship : MonoBehaviour {
             T.HandleAutoTurret();
         }
     }
+<<<<<<< HEAD
     protected void AdvancedAIMovementControl() {
         //Vector3 targDir = base.targDir;
         //Vector3 targDir = base.Target.GetComponent<Ship>().GetVel();
@@ -163,6 +199,43 @@ public class Ship : MonoBehaviour {
         Translate(1, 0, 0);
     }
     
+=======
+    
+    protected void FindShips() {
+        GameObject[] TempArray = GameObject.FindGameObjectsWithTag("Ship");
+        foreach (GameObject go in TempArray) {
+            if (go.GetComponent<Ship>() != null & !go.Equals(this.gameObject)) {
+                if (go.GetComponent<Ship>().gameObject.layer != gameObject.layer) {
+                    TargetArray.Add(go);
+                }
+            }
+        }
+        if (TargetArray.Count > 0) {
+            Target = TargetArray[0];
+
+            for (int i = 0; i < TargetArray.Count; i++) {
+                GameObject go = TargetArray[i];
+                if (go == null) {
+                    TargetArray.Remove(go);
+                }
+                else if (Target == null) {
+                    Target = go;
+                }
+                else {
+                    float targDist = Vector3.Distance(Target.transform.position, transform.position);
+                    float newTempDist = Vector3.Distance(go.transform.position, transform.position);
+
+                    if (newTempDist < targDist) {
+                        Target = go;
+                    }
+                }
+            }
+        }
+        //print(name + ":");
+        //print(TargetArray.Count);
+    }
+
+>>>>>>> parent of 503e910... full scale battles,
     #region Movement Methods
     // TRANSLATION METHOD
     public void Translate(float forward, float strafe, float boost) {
@@ -175,7 +248,7 @@ public class Ship : MonoBehaviour {
     // ROTATION METHODS (next 3 methods)
     public void RotateToPosition(Vector3 pos) {
         Vector3 posDir = pos - transform.position; posDir.Normalize();
-        float posAng = Mathf.Atan2(posDir.y, posDir.x) * Mathf.Rad2Deg;
+        float posAng = Mathf.Atan2(posDir.y, targDir.x) * Mathf.Rad2Deg;
         float posAngDiff = Mathf.DeltaAngle(posAng, myAng);
         rotate = Mathf.Clamp(posAngDiff, -1, 1);
 
@@ -228,10 +301,6 @@ public class Ship : MonoBehaviour {
 
     public Vector3 GetVel() {
         return vel;
-    }
-
-    public void SetVel(Vector3 v) {
-        vel = v;
     }
 
     public void PrintInfo() {

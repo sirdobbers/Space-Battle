@@ -6,27 +6,28 @@ public class Missle : MonoBehaviour
 {
     float dmg = 10f;
     float pen = 0f; //0 no pen ... 1 is full pen
+<<<<<<< HEAD
     float speed = 2f; // per second
     float acc = 5f; // per second
     float travelTime = 10; // seconds
     float maxSpeed = 40f;
+=======
+    float speed = 3f; // per second
+    float acc = 0.1f; // per second
+    float travelTime = 5; // seconds
+>>>>>>> parent of 503e910... full scale battles,
     float explosionRadius = 50f;
     float rotSpeed = 50; // per second
-    float dampening = 0.9f;
 
-    Vector3 offsetVel = new Vector3(0,0,0);
-
-    GameObject target = null;
+    GameObject target = null; //set via SetTarget by other classes
+    Vector3 offsetVel = new Vector3(0,0,0); //set via SetOffsetVel by other classes
     float lifeTimeTimer;
     ContactPoint2D[] cp = new ContactPoint2D[10];
 
     public GameObject ImpactEffectPrefab; //set prefab in inspector
 
     void OnTriggerEnter2D(Collider2D HitCollider) {
-        if (HitCollider.gameObject.GetComponent<DamageHandler>() != null) {
-            HitCollider.gameObject.GetComponent<DamageHandler>().TakeDamage(dmg + dmg * Random.Range(-0.1f, 0.1f), pen);
-            Explode();
-        }
+        HitCollider.gameObject.GetComponent<DamageHandler>().TakeDamage(dmg,pen);
         Explode();
 
         /* ****This can be used in the future for specific dmg decals on ships****
@@ -38,17 +39,20 @@ public class Missle : MonoBehaviour
     }
 
     void Start() {
+        // set to render on top of everything else
         gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Front";
     }
 
     void Update() {
-        if (target != null & lifeTimeTimer<=travelTime) {
-            Move();
-            lifeTimeTimer += Time.deltaTime;
+
+        // Rotate toward target
+        if (target != null) {
+            Vector3 dir = target.transform.position - transform.position;
+            float zAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
+            Quaternion desiredRot = Quaternion.Euler(0, 0, zAngle);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRot, rotSpeed * Time.deltaTime);
         }
-        else {
-            Explode();
-        }
+<<<<<<< HEAD
     }
 
     void Move() {
@@ -63,11 +67,16 @@ public class Missle : MonoBehaviour
         // translate
         /*
         Rigidbody2D R = gameObject.GetComponent<Rigidbody2D>();
+=======
+
+        // Travel forward
+>>>>>>> parent of 503e910... full scale battles,
         transform.Translate((new Vector3(0, speed, 0)) * Time.deltaTime);
         speed += acc;
         Vector3 Pos = transform.position;
         Pos += offsetVel;
         transform.position = Pos;
+<<<<<<< HEAD
         */
 
         transform.Translate((new Vector3(0, speed - speed * dampening, 0)) * Time.deltaTime);
@@ -86,6 +95,12 @@ public class Missle : MonoBehaviour
         if (dampening > 0) {
             dampening -= Time.deltaTime * 0.3f;
         }
+=======
+
+        // Timer till auto explode
+        if (lifeTimeTimer > travelTime) { Explode(); }
+        else { lifeTimeTimer += Time.deltaTime; }
+>>>>>>> parent of 503e910... full scale battles,
     }
 
     void Explode() {
@@ -105,12 +120,11 @@ public class Missle : MonoBehaviour
         target = t;
     }
 
-    public void SetVals(float dmg, float pen, float speed, float acc, float travelTime, float rotSpeed) {
+    public void SetVals(float dmg, float pen, float speed, float acc, float travelTime) {
         this.dmg = dmg;
         this.pen = pen;
         this.speed = speed;
         this.acc = acc;
         this.travelTime = travelTime;
-        this.rotSpeed = rotSpeed;
     }
 }

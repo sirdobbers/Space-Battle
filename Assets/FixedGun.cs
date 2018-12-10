@@ -42,21 +42,12 @@ public class FixedGun : MonoBehaviour {
             fireOffset = Vector3.Scale(fireOffset, scale);
             Parent = transform.parent.gameObject.transform.parent.gameObject;
             gameObject.GetComponent<SpriteRenderer>().sortingOrder = Parent.GetComponent<SpriteRenderer>().sortingOrder + 2;
-
         }
         else {
             fireOffset = Vector3.Scale(fireOffset, transform.parent.transform.localScale);
             Parent = transform.parent.gameObject;
             gameObject.GetComponent<SpriteRenderer>().sortingOrder = Parent.GetComponent<SpriteRenderer>().sortingOrder + 1;
         }
-
-        if (Parent.layer == 11) {
-            bulletColor = new Vector3(255, 0, 0);
-        }
-        else {
-            bulletColor = new Vector3(0, 255, 255);
-        }
-
         //gameObject.GetComponent<SpriteRenderer>().sortingLayerID = Parent.GetComponent<SpriteRenderer>().sortingLayerID;
     }
 
@@ -97,7 +88,7 @@ public class FixedGun : MonoBehaviour {
                 if (MissleTarget != null) {missle.GetComponent<Missle>().SetTarget(MissleTarget);}
                 missle.layer = gameObject.layer;
                 missle.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
-                missle.GetComponent<Missle>().SetVals(projectileDamage, projectilePenetration, projectileInitSpeed, projectileAcceleration, projectileFlightTime,10);
+                missle.GetComponent<Missle>().SetVals(projectileDamage, projectilePenetration, projectileInitSpeed, projectileAcceleration, projectileFlightTime);
             }
             else if (type == TurretType.Gun) {
                 GameObject bullet = (GameObject)Instantiate(BulletPrefab, transform.position + offsetPos, transform.rotation);

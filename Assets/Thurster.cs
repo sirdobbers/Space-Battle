@@ -39,7 +39,7 @@ public class Thurster : MonoBehaviour {
         else if (Dir == ThrustDirection.boost) { ThrustLvl = ShipScript.GetThrust("boost"); }
 
         //this is the "pulsing" effect of the thrusters
-        transform.localScale = initScale * (ThrustLvl) * Random.Range(1.0f- 0.1f * initScale.magnitude, 1.0f + 0.1f * initScale.magnitude);
+        transform.localScale = initScale * (ThrustLvl) * Random.Range(1.0f- 0.2f * initScale.magnitude, 1.0f + 0.2f * initScale.magnitude);
 
     }
 }

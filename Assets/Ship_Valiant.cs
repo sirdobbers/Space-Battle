@@ -13,14 +13,13 @@ public class Ship_Valiant : Ship {
     GameObject shield;
 
     void Start() {
-        base.CStart();
+        base.Init();
     }
 	
 	void Update () {
-        base.CUpdate();
         base.GenericPlayerControl();
-
         HandleShield();
+        
 	}
 
     public void HandleShield() {
