@@ -32,7 +32,7 @@ public class DefenseTower : MonoBehaviour {
                 Turret T = TurretBaseArray[i].transform.GetChild(0).GetComponent<Turret>();
                 T.SetTarget(Target);
                 T.RotateTurretToTarget(true);
-                T.ValidFire();
+                T.FireIfValid();
             }
         }
 
@@ -40,7 +40,7 @@ public class DefenseTower : MonoBehaviour {
             Turret T = TurretArray[i].GetComponent<Turret>();
             T.SetTarget(Target);
             T.RotateTurretToTarget(true);
-            T.ValidFire();
+            T.FireIfValid();
         }
     }
 }

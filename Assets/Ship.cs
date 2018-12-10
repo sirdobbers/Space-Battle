@@ -16,9 +16,8 @@ public class Ship : MonoBehaviour {
     public float dampening = 0.005f;
     public float hp = 10f;
     public float armor = 10f;
-    public float searchCooldown = 5f;
-    public float maxRange = 50f;
 
+    protected ShipScanner Scanner;
     protected GameObject Target;
     protected List<GameObject> TargetArray = new List<GameObject>();
     protected List<GameObject> TurretArray = new List<GameObject>();
@@ -34,6 +33,7 @@ public class Ship : MonoBehaviour {
     protected float myAng;
     protected float targAngDiff;
     protected float searchTimer;
+    protected float maxRange = 50f;
 
     // THRUST DIRECTIONS USED FOR THRUST CLASS
     private float forward;
@@ -46,6 +46,7 @@ public class Ship : MonoBehaviour {
     void Update() {CUpdate();}
 
     protected void CStart() {
+        Scanner = gameObject.GetComponent<ShipScanner>();
         // ADD TURRET AND GUNS TO ARRAYS
         foreach (Transform child in transform) {
             if (child.gameObject.tag == "Turret") {
@@ -68,8 +69,6 @@ public class Ship : MonoBehaviour {
 
     protected void CUpdate() {
         boost = 0; strafe = 0; rotate = 0; forward = 0;
-
-        HandleSearch();
 
         // SET GENERIC MOVEMENT CONTROLS IF CONTORL IS GENERIC
         if (control == Control.GenericPlayer) {
@@ -121,25 +120,20 @@ public class Ship : MonoBehaviour {
         Rotate(rotate);
     }
     protected void GenericAIMovementControl() {
-        // MOVEMENT
+        Scanner.ScanInInterval(5f);
+        Target = Scanner.ClosestShip;
         RotateToTarget();
         Translate(1*Random.Range(0.5f,1.5f), 0, 0);
     }
     protected void GenericAITurretControl() {
-        // FIRE GUNS
         if (Mathf.Abs(targAngDiff) < 5) {
             for (int i = 0; i < FixedGunArray.Count; i++) {
                 FixedGunArray[i].GetComponent<FixedGun>().Fire();
             }
         }
-        // ROTATE & FIRE TURRETS
         for (int i = 0; i < TurretArray.Count; i++) {
-            if (Target != null) {
-                Turret T = TurretArray[i].GetComponent<Turret>();
-                T.SetTarget(Target);
-                T.RotateTurretToTarget(true);
-                T.ValidFire();
-            }
+            Turret T = TurretArray[i].GetComponent<Turret>();
+            T.HandleAutoTurret();
         }
     }
     protected void AdvancedAIMovementControl() {
@@ -147,6 +141,10 @@ public class Ship : MonoBehaviour {
         //Vector3 targDir = base.Target.GetComponent<Ship>().GetVel();
         //Vector3 newDir = Vector3.Cross(targDir, new Vector3(0, 0, 1));
 
+        if (Target == null) {
+            Scanner.ScanInInterval(5f);
+            Target = Scanner.ClosestShip;
+        }
         if (Target != null) {
             if (targDist > maxRange) {
                 RotateToTarget();
@@ -164,54 +162,7 @@ public class Ship : MonoBehaviour {
         }
         Translate(1, 0, 0);
     }
-
-    protected void HandleSearch() {
-        //searchTimer for ships and set target to nearest ship that is of another team
-        if (searchTimer <= 0) {
-            FindShips();
-            searchTimer = searchCooldown + searchCooldown * Random.Range(-0.1f, 0.1f);
-        }
-        else {
-            searchTimer -= Time.deltaTime;
-        }
-        if (Target == null & TargetArray.Count > 0) {
-            FindShips();
-        }
-    }
-    protected void FindShips() {
-        GameObject[] TempArray = GameObject.FindGameObjectsWithTag("Ship");
-        foreach (GameObject go in TempArray) {
-            if (go.GetComponent<Ship>() != null & !go.Equals(this.gameObject)) {
-                if (go.GetComponent<Ship>().gameObject.layer != gameObject.layer) {
-                    TargetArray.Add(go);
-                }
-            }
-        }
-        if (TargetArray.Count > 0) {
-            Target = TargetArray[0];
-
-            for (int i = 0; i < TargetArray.Count; i++) {
-                GameObject go = TargetArray[i];
-                if (go == null) {
-                    TargetArray.Remove(go);
-                }
-                else if (Target == null) {
-                    Target = go;
-                }
-                else {
-                    targDist = Vector3.Distance(Target.transform.position, transform.position);
-                    float newTempDist = Vector3.Distance(go.transform.position, transform.position);
-
-                    if (newTempDist < targDist) {
-                        Target = go;
-                    }
-                }
-            }
-        }
-        //print(name + ":");
-        //print(TargetArray.Count);
-    }
-
+    
     #region Movement Methods
     // TRANSLATION METHOD
     public void Translate(float forward, float strafe, float boost) {

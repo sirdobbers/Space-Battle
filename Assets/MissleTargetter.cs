@@ -45,6 +45,7 @@ public class MissleTargetter : MonoBehaviour {
     }
 
     void ScanForShips() {
+        TargetList.Clear();
         GameObject[] TempArray = GameObject.FindGameObjectsWithTag("Ship");
         foreach (GameObject go in TempArray) {
             if (go.GetComponent<Ship>() != null & !go.Equals(this.gameObject)) {
@@ -78,7 +79,7 @@ public class MissleTargetter : MonoBehaviour {
                 missle.SetTarget(TargetList[count]);
                 missle.SetOffsetVel(myShip.GetVel()+transform.up*launchSpeed*Time.deltaTime);
                 go.layer = gameObject.layer;
-                missle.SetVals(10, 0, 4f, 5f, 10, 60);
+                missle.SetVals(30, 0, 4f, 5f, 8, 100);
 
                 fireTimer = fireInterval;
                 count++;

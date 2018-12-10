@@ -21,7 +21,7 @@ public class Ship_Big : Ship {
         base.AdvancedAIMovementControl();
         base.GenericAITurretControl();
         
-            SpawnShips();
+        SpawnShips();
     }
 
     void SpawnShips() {

@@ -20,8 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4956016308194978}
   - component: {fileID: 212965086064650290}
-  - component: {fileID: 114985930525886176}
   - component: {fileID: 114004676215801326}
+  - component: {fileID: 114118331354049202}
+  - component: {fileID: 114761196610015880}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Turret
@@ -84,6 +85,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069147902310a0b46abdceeeebf44c90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114118331354049202
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403301027216554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fefa4c57f3938645811578b3ce15b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShipList: []
+  ClosestShip: {fileID: 0}
 --- !u!114 &114297940558400720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,7 +121,7 @@ MonoBehaviour:
     type: 2}
   BulletPrefab: {fileID: 1159157506414710, guid: 24a1c287e6451324cb9c2a95703bc48d,
     type: 2}
---- !u!114 &114985930525886176
+--- !u!114 &114761196610015880
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,9 +132,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2da4c5a0a378384ebbe2a6998040c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotSpeed: 80
+  rotSpeed: 90
   rotateRange: 360
-  targetRange: 40
+  maxRange: 50
   debug: 0
 --- !u!212 &212117871121962160
 SpriteRenderer:

@@ -73,9 +73,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4085972258339782}
   - component: {fileID: 212034001182522704}
-  - component: {fileID: 114731128327332258}
   - component: {fileID: 58878706554748116}
   - component: {fileID: 50492408252057862}
+  - component: {fileID: 114731128327332258}
   m_Layer: 9
   m_Name: TurretBase
   m_TagString: TurretBase
@@ -109,8 +109,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4676261762052462}
   - component: {fileID: 212277157486216722}
-  - component: {fileID: 114887382912976246}
   - component: {fileID: 114344293004327740}
+  - component: {fileID: 114887382912976246}
+  - component: {fileID: 114190914845828714}
   m_Layer: 9
   m_Name: Turret
   m_TagString: Turret
@@ -233,6 +234,21 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114190914845828714
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1547588238557844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fefa4c57f3938645811578b3ce15b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scanRange: 50
+  autoScanInterval: 0
+  ShipList: []
+  ClosestShip: {fileID: 0}
 --- !u!114 &114208875912744124
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -406,7 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotSpeed: 80
   rotateRange: 360
-  targetRange: 20
+  maxRange: 50
   debug: 1
 --- !u!212 &212034001182522704
 SpriteRenderer:

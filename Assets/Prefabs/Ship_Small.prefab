@@ -160,9 +160,10 @@ GameObject:
   - component: {fileID: 212540901804315088}
   - component: {fileID: 60509555938510932}
   - component: {fileID: 50652667729078948}
+  - component: {fileID: 96608756206550906}
   - component: {fileID: 114094421177177068}
   - component: {fileID: 114587317107421682}
-  - component: {fileID: 96608756206550906}
+  - component: {fileID: 114829540380790488}
   m_Layer: 11
   m_Name: Ship_Small
   m_TagString: Ship
@@ -179,8 +180,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4991922789435450}
   - component: {fileID: 212979906966187978}
-  - component: {fileID: 114906696818999786}
   - component: {fileID: 114525103101067546}
+  - component: {fileID: 114906696818999786}
+  - component: {fileID: 114134259429175668}
   m_Layer: 11
   m_Name: Turret1
   m_TagString: Turret
@@ -587,6 +589,19 @@ MonoBehaviour:
   DestroyEffectPrefab: {fileID: 1486832452894936, guid: 35fbf303476ecb4498dd9572fc7c1610,
     type: 2}
   canTakeDmg: 1
+--- !u!114 &114134259429175668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1549803901745428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fefa4c57f3938645811578b3ce15b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShipList: []
+  ClosestShip: {fileID: 0}
 --- !u!114 &114319162553640164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -704,8 +719,6 @@ MonoBehaviour:
   dampening: 0.005
   hp: 5
   armor: 10
-  searchCooldown: 2
-  maxRange: 50
 --- !u!114 &114614111648380604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -746,6 +759,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114829540380790488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392966255042032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fefa4c57f3938645811578b3ce15b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShipList: []
+  ClosestShip: {fileID: 0}
 --- !u!114 &114847722422770230
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -783,7 +809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotSpeed: 80
   rotateRange: 360
-  targetRange: 40
+  maxRange: 20
   debug: 0
 --- !u!114 &114932797746513806
 MonoBehaviour:

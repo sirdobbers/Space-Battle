@@ -9,6 +9,7 @@ public class Missle : MonoBehaviour
     float speed = 2f; // per second
     float acc = 5f; // per second
     float travelTime = 10; // seconds
+    float maxSpeed = 40f;
     float explosionRadius = 50f;
     float rotSpeed = 50; // per second
     float dampening = 0.9f;
@@ -49,12 +50,12 @@ public class Missle : MonoBehaviour
             Explode();
         }
     }
-    
+
     void Move() {
         // rotate
 
-        Vector3 targPos = gameObject.GetComponent<BulletPrediction2>().GetAimLocation(target, gameObject, speed);
-        Vector3 targDir = (transform.position+targPos) - transform.position;
+        Vector3 targPos = gameObject.GetComponent<BulletPrediction2>().GetAimLocation(target, gameObject, speed * Time.deltaTime);
+        Vector3 targDir = (transform.position + targPos) - transform.position;
         float targAng = Mathf.Atan2(targDir.y, targDir.x) * Mathf.Rad2Deg - 90;
         Quaternion desiredRot = Quaternion.Euler(0, 0, targAng);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRot, rotSpeed * Time.deltaTime);
@@ -69,11 +70,18 @@ public class Missle : MonoBehaviour
         transform.position = Pos;
         */
 
-        transform.Translate((new Vector3(0, speed-speed*dampening, 0)) * Time.deltaTime);
-        speed += acc * Time.deltaTime;
+        transform.Translate((new Vector3(0, speed - speed * dampening, 0)) * Time.deltaTime);
+        if (speed < maxSpeed) { 
+            speed += acc * Time.deltaTime;
+        }
 
         Vector3 Pos = transform.position + offsetVel;
         transform.position = Pos;
+
+        if (offsetVel.magnitude > 0) {
+            offsetVel = offsetVel * 0.98f;
+        }
+
 
         if (dampening > 0) {
             dampening -= Time.deltaTime * 0.3f;

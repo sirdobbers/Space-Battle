@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 60038102024616442}
   - component: {fileID: 50781049539711936}
   - component: {fileID: 114924567579429072}
+  - component: {fileID: 114870474881956338}
   - component: {fileID: 114165897967224568}
   m_Layer: 12
   m_Name: Ship_Armor
@@ -201,8 +202,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4911659465824292}
   - component: {fileID: 212184219342463266}
-  - component: {fileID: 114997711754450168}
   - component: {fileID: 114635796869976584}
+  - component: {fileID: 114997711754450168}
+  - component: {fileID: 114888996093014778}
   m_Layer: 12
   m_Name: Turret (1)
   m_TagString: Turret
@@ -219,8 +221,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4022001924448438}
   - component: {fileID: 212097896547306040}
-  - component: {fileID: 114819938307254100}
   - component: {fileID: 114251165395132386}
+  - component: {fileID: 114819938307254100}
+  - component: {fileID: 114010457102400510}
   m_Layer: 12
   m_Name: Turret
   m_TagString: Turret
@@ -559,6 +562,19 @@ PolygonCollider2D:
       - {x: 0.17402296, y: -0.3931092}
       - {x: 0.22181165, y: 0.02195795}
       - {x: 0.2966301, y: 0.3320021}
+--- !u!114 &114010457102400510
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1865837308775118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fefa4c57f3938645811578b3ce15b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShipList: []
+  ClosestShip: {fileID: 0}
 --- !u!114 &114165897967224568
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -577,8 +593,6 @@ MonoBehaviour:
   dampening: 0.005
   hp: 30
   armor: 10
-  searchCooldown: 5
-  maxRange: 35
 --- !u!114 &114203418018270578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -829,7 +843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotSpeed: 80
   rotateRange: 360
-  targetRange: 40
+  maxRange: 20
   debug: 0
 --- !u!114 &114853474021209058
 MonoBehaviour:
@@ -847,6 +861,32 @@ MonoBehaviour:
   DestroyEffectPrefab: {fileID: 1486832452894936, guid: 35fbf303476ecb4498dd9572fc7c1610,
     type: 2}
   canTakeDmg: 1
+--- !u!114 &114870474881956338
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1747996801302294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fefa4c57f3938645811578b3ce15b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShipList: []
+  ClosestShip: {fileID: 0}
+--- !u!114 &114888996093014778
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1781002062896000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fefa4c57f3938645811578b3ce15b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShipList: []
+  ClosestShip: {fileID: 0}
 --- !u!114 &114902010717843078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -912,7 +952,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotSpeed: 80
   rotateRange: 360
-  targetRange: 40
+  maxRange: 20
   debug: 0
 --- !u!212 &212097896547306040
 SpriteRenderer:
