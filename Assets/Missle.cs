@@ -9,26 +9,26 @@ public class Missle : MonoBehaviour
     float speed = 2f; // per second
     float acc = 5f; // per second
     float travelTime = 10; // seconds
-    float explosionRadius = 50f;
+    float maxSpeed = 40f;
+    float explosionRadius = 5f;
     float rotSpeed = 50; // per second
     float dampening = 0.9f;
-
-    Vector3 offsetVel = new Vector3(0,0,0);
-
-    GameObject target = null;
     float lifeTimeTimer;
-    ContactPoint2D[] cp = new ContactPoint2D[10];
+
+    Vector3 vel = new Vector3(0, 0, 0);
+    GameObject target = null;
+    ShipScanner Scanner;
+    //ContactPoint2D[] cp = new ContactPoint2D[10];
 
     public GameObject ImpactEffectPrefab; //set prefab in inspector
 
     void OnTriggerEnter2D(Collider2D HitCollider) {
         if (HitCollider.gameObject.GetComponent<DamageHandler>() != null) {
             HitCollider.gameObject.GetComponent<DamageHandler>().TakeDamage(dmg + dmg * Random.Range(-0.1f, 0.1f), pen);
-            Explode();
         }
         Explode();
 
-        /* ****This can be used in the future for specific dmg decals on ships****
+        /* //This can be used in the future for specific dmg decals on ships
         if (HitCollider.GetComponent<EnemyShip>() != null) {
             HitCollider.GetContacts(cp);
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, cp[0].normal);
@@ -37,11 +37,11 @@ public class Missle : MonoBehaviour
     }
 
     void Start() {
-        gameObject.GetComponent<SpriteRenderer>().sortingLayerName = "Front";
+        Scanner = gameObject.GetComponent<ShipScanner>();
     }
 
     void Update() {
-        if (target != null & lifeTimeTimer<=travelTime) {
+        if (target != null & lifeTimeTimer <= travelTime) {
             Move();
             lifeTimeTimer += Time.deltaTime;
         }
@@ -49,30 +49,20 @@ public class Missle : MonoBehaviour
             Explode();
         }
     }
-    
-    void Move() {
-        // rotate
 
-        Vector3 targPos = gameObject.GetComponent<BulletPrediction2>().GetAimLocation(target, gameObject, speed);
-        Vector3 targDir = (transform.position+targPos) - transform.position;
+    void Move() {
+        Vector3 targPos = gameObject.GetComponent<BulletPrediction2>().GetAimLocation(target, gameObject, speed * Time.deltaTime);
+        Vector3 targDir = (transform.position + targPos) - transform.position;
         float targAng = Mathf.Atan2(targDir.y, targDir.x) * Mathf.Rad2Deg - 90;
         Quaternion desiredRot = Quaternion.Euler(0, 0, targAng);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRot, rotSpeed * Time.deltaTime);
+        
+        transform.Translate((new Vector3(0, speed - speed * dampening, 0)) * Time.deltaTime);
+        if (speed < maxSpeed) {
+            speed += acc * Time.deltaTime;
+        }
 
-        // translate
-        /*
-        Rigidbody2D R = gameObject.GetComponent<Rigidbody2D>();
-        transform.Translate((new Vector3(0, speed, 0)) * Time.deltaTime);
-        speed += acc;
-        Vector3 Pos = transform.position;
-        Pos += offsetVel;
-        transform.position = Pos;
-        */
-
-        transform.Translate((new Vector3(0, speed-speed*dampening, 0)) * Time.deltaTime);
-        speed += acc * Time.deltaTime;
-
-        Vector3 Pos = transform.position + offsetVel;
+        Vector3 Pos = transform.position + vel;
         transform.position = Pos;
 
         if (dampening > 0) {
@@ -82,27 +72,39 @@ public class Missle : MonoBehaviour
 
     void Explode() {
         Instantiate(ImpactEffectPrefab, transform.position, transform.rotation); //this is an explosion effect
-
-        //TODO: find ships in explosion radius
-        //TODO: do dmg to them relative to distance
+        
+        // aoe dmg
+        List<GameObject> ShipList = Scanner.ScanForShipsInRange(ShipScanner.ScanType.Enemy,explosionRadius);
+        for (int i = 0; i< ShipList.Count; i++) {
+            float shipDist = Vector3.Distance(transform.position, ShipList[i].transform.position);
+            float aoeDMG = Mathf.Max(0, (explosionRadius - shipDist)/explosionRadius * dmg);
+            ShipList[i].GetComponent<DamageHandler>().TakeDamage(aoeDMG, 0);
+        }
 
         Destroy(gameObject);
     }
 
-    public void SetOffsetVel(Vector3 off) {
-        offsetVel = off;
+    #region Getters Setters
+    public Vector3 GetVel() {
+        return vel;
+    }
+
+    public void SetVel(Vector3 vel) {
+        this.vel = vel;
     }
 
     public void SetTarget(GameObject t) {
         target = t;
     }
 
-    public void SetVals(float dmg, float pen, float speed, float acc, float travelTime, float rotSpeed) {
+    public void SetVals(float dmg, float pen, float speed, float acc, float travelTime, float rotSpeed, Vector3 vel) {
         this.dmg = dmg;
         this.pen = pen;
         this.speed = speed;
         this.acc = acc;
         this.travelTime = travelTime;
         this.rotSpeed = rotSpeed;
+        this.vel = vel;
     }
+    #endregion
 }

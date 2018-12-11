@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 96425257029308058}
   - component: {fileID: 114460049405770092}
   - component: {fileID: 114819735136382106}
+  - component: {fileID: 114386584358458110}
   m_Layer: 0
   m_Name: Missle1
   m_TagString: Untagged
@@ -191,6 +192,19 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &114386584358458110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1573895260450220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff58eac2ba8dee84b92550e01f5fbc26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShipList: []
+  ClosestShip: {fileID: 0}
 --- !u!114 &114460049405770092
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -72,6 +72,7 @@
      <Compile Include="Assets\Ship_Armor.cs" />
      <Compile Include="Assets\Ship_Big.cs" />
      <Compile Include="Assets\Ship_Valiant.cs" />
+     <Compile Include="Assets\ShipScanner.cs" />
      <Compile Include="Assets\Thurster.cs" />
      <Compile Include="Assets\TrailHandler.cs" />
      <Compile Include="Assets\Turret.cs" />

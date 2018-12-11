@@ -93,11 +93,11 @@ public class FixedGun : MonoBehaviour {
             Vector3 offsetPos = transform.rotation * fireOffset + vel;
             if (type == TurretType.Missle) {
                 GameObject missle = (GameObject)Instantiate(MisslePrefab, transform.position + offsetPos, transform.rotation);
-                missle.GetComponent<Missle>().SetOffsetVel(vel);
+                missle.GetComponent<Missle>().SetVel(vel);
                 if (MissleTarget != null) {missle.GetComponent<Missle>().SetTarget(MissleTarget);}
                 missle.layer = gameObject.layer;
                 missle.GetComponent<SpriteRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
-                missle.GetComponent<Missle>().SetVals(projectileDamage, projectilePenetration, projectileInitSpeed, projectileAcceleration, projectileFlightTime,10);
+                missle.GetComponent<Missle>().SetVals(projectileDamage, projectilePenetration, projectileInitSpeed, projectileAcceleration, projectileFlightTime,10,vel);
             }
             else if (type == TurretType.Gun) {
                 GameObject bullet = (GameObject)Instantiate(BulletPrefab, transform.position + offsetPos, transform.rotation);

@@ -13,6 +13,9 @@ public class BulletPrediction2 : MonoBehaviour {
         if (Self.GetComponentInParent<Ship>() != null) {
             myVel = Self.GetComponentInParent<Ship>().GetVel();
         }
+        else if(Self.GetComponent<Missle>() != null) {
+            myVel = Self.GetComponent<Missle>().GetVel();
+        }
         Vector3 relVel = Target.GetComponent<Ship>().GetVel() - myVel;
 
         float px = relPos.x;

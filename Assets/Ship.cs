@@ -161,8 +161,8 @@ public class Ship : MonoBehaviour {
                 Vector3 newDir = relVel;
                 RotateToPosition(transform.position + newDir);
             }
+            Translate(1, 0, 0);
         }
-        Translate(1, 0, 0);
     }
 
     protected void HandleSearch() {
