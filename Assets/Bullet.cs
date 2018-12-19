@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    float dmg = 4f;
-    float pen = 0f; //0 no pen ... 1 is full pen
-    float speed = 6f; // per second
-    float acc = 0.0f;
-    float travelTime = 10; //seconds
+    private float dmg = 4f;
+    private float pen = 0f; //0 no pen ... 1 is full pen
+    private float speed = 6f; // per second
+    private float acc = 0.0f;
+    private float travelTime = 10; //seconds
     
     Vector3 offsetVel; //set via SetTarget by other classes that fire bullets
     ContactPoint2D[] cp = new ContactPoint2D[10];
@@ -22,10 +22,11 @@ public class Bullet : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D HitCollider) {
-        if (HitCollider.gameObject.GetComponent<DamageHandler>() != null) {
-            HitCollider.gameObject.GetComponent<DamageHandler>().TakeDamage(dmg+dmg*Random.Range(-0.1f,0.1f), pen);
-            Explode();
+        DamageHandler DH = HitCollider.gameObject.GetComponent<DamageHandler>();
+        if (DH != null) {
+            DH.TakeDamage(dmg+dmg*Random.Range(-0.1f,0.1f), pen);
         }
+        Explode();
     }
     
     void Update () {

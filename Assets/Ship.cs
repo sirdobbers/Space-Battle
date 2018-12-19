@@ -6,16 +6,14 @@ using UnityEngine;
 public class Ship : MonoBehaviour {
     #region Variables
     public enum Control {
-        AI, Player, GenericPlayer, GenericAI
+        CustomAI, CustomPlayer, GenericAI, GenericPlayer
     }
 
     public string shipName = "No_Name";
-    public Control control = Control.AI;
+    public Control control = Control.CustomAI;
     public float acceleration = 0.1f; // units per second
     public float rotSpeed = 360f; // degrees per second
     public float dampening = 0.005f;
-    public float hp = 10f;
-    public float armor = 10f;
     public float searchCooldown = 5f;
     public float maxRange = 50f;
 
@@ -23,8 +21,7 @@ public class Ship : MonoBehaviour {
     protected List<GameObject> TargetArray = new List<GameObject>();
     protected List<GameObject> TurretArray = new List<GameObject>();
     protected List<GameObject> FixedGunArray = new List<GameObject>();
-
-
+    
     protected Quaternion QRot;
     protected Vector3 vel = new Vector3(0, 0, 0);
     protected Vector3 targDir;

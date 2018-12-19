@@ -3,22 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageHandler : MonoBehaviour {
-    float startArmor;
-    float startHealth;
-
-    public float armor = 10;
-    public float health = 10;
+    public float health=1;
+    public float armor=1;
 
     public GameObject DestroyEffectPrefab;
     public bool canTakeDmg = true;
 
-    HealthBar HPBar;
+    private HealthBar HPBar;
+    private float startArmor;
+    private float startHealth;
 
     void Start() {
-        if (gameObject.GetComponent<Ship>() != null) {
-            armor = gameObject.GetComponent<Ship>().armor;
-            health = gameObject.GetComponent<Ship>().hp;
-        }
 
         startArmor = armor;
         startHealth = health;
@@ -32,15 +27,20 @@ public class DamageHandler : MonoBehaviour {
 
     void Update() {
         if (health <= 0) {
-            GameObject go = Instantiate(DestroyEffectPrefab, transform.position, transform.rotation);
-            Vector3 shipScale = gameObject.transform.localScale;
-            go.transform.localScale = shipScale*0.4f;
-            go.transform.GetChild(0).transform.localScale = shipScale * 0.4f;
-            
-            //go.GetComponent<Particle_Impact>().Init(2, float scale);
-            Destroy(gameObject);
+            Die();
         }
     }
+
+    public void Die() {
+        GameObject go = Instantiate(DestroyEffectPrefab, transform.position, transform.rotation);
+        Vector3 scale = gameObject.transform.localScale;
+        go.transform.localScale = scale * 0.4f;
+        go.transform.GetChild(0).transform.localScale = scale * 0.4f;
+
+        //go.GetComponent<Particle_Impact>().Init(2, float scale);
+        Destroy(gameObject);
+    }
+    
 
     public void TakeDamage(float dmg, float pen) {
         if (canTakeDmg) {

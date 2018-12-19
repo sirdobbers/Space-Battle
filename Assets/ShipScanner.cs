@@ -9,17 +9,31 @@ public class ShipScanner : MonoBehaviour
     {
         Enemy, Ally, All
     }
-    private ScanType scanType = ScanType.Enemy;
-    private float scanRange = 0; //0 means infinite range
+    public bool autoScan = false;
+    public ScanType scanType = ScanType.Enemy;
+    public float scanRange = 0; //0 means infinite range
 
     [HideInInspector] public List<GameObject> ShipList = new List<GameObject>();
     [HideInInspector] public GameObject ClosestShip;
+
+    private float scanInterval = 5;
+    private float intervalTimer = 0;
 
     void Start() {
 
     }
 
     void Update() {
+        if (autoScan == true) {
+            if (intervalTimer <= 0) {
+                ScanForShips();
+                ScanForClosestShip(scanType);
+                intervalTimer = scanInterval;
+            }
+            else {
+                intervalTimer -= Time.deltaTime;
+            }
+        }
     }
 
     public List<GameObject> ScanForShips(ScanType scanType) {

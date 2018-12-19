@@ -4,40 +4,26 @@ using UnityEngine;
 
 public class Missle : MonoBehaviour
 {
-    float dmg = 10f;
-    float pen = 0f; //0 no pen ... 1 is full pen
-    float speed = 2f; // per second
-    float acc = 5f; // per second
-    float travelTime = 10; // seconds
-    float maxSpeed = 40f;
-    float explosionRadius = 5f;
-    float rotSpeed = 50; // per second
-    float dampening = 0.9f;
-    float lifeTimeTimer;
+    private float dmg = 10f;
+    private float pen = 0f; //0 no pen ... 1 is full pen
+    private float speed = 2f; // per second
+    private float acc = 5f; // per second
+    private float travelTime = 10; // seconds
+    private float maxSpeed = 40f;
+    private float explosionRadius = 5f;
+    private float rotSpeed = 50; // per second
+    private float dampening = 0.9f;
+    private float lifeTimeTimer;
 
-    Vector3 vel = new Vector3(0, 0, 0);
-    GameObject target = null;
-    ShipScanner Scanner;
+    private Vector3 vel = new Vector3(0, 0, 0);
+    private GameObject target = null;
+    private ShipScanner myScanner;
+    private DamageHandler myDH;
     //ContactPoint2D[] cp = new ContactPoint2D[10];
 
-    public GameObject ImpactEffectPrefab; //set prefab in inspector
-
-    void OnTriggerEnter2D(Collider2D HitCollider) {
-        if (HitCollider.gameObject.GetComponent<DamageHandler>() != null) {
-            HitCollider.gameObject.GetComponent<DamageHandler>().TakeDamage(dmg + dmg * Random.Range(-0.1f, 0.1f), pen);
-        }
-        Explode();
-
-        /* //This can be used in the future for specific dmg decals on ships
-        if (HitCollider.GetComponent<EnemyShip>() != null) {
-            HitCollider.GetContacts(cp);
-            Quaternion rot = Quaternion.FromToRotation(Vector3.up, cp[0].normal);
-            Vector3 pos = cp[0].point;
-        }*/
-    }
-
     void Start() {
-        Scanner = gameObject.GetComponent<ShipScanner>();
+        myScanner = gameObject.GetComponent<ShipScanner>();
+        myDH = gameObject.GetComponent<DamageHandler>();
     }
 
     void Update() {
@@ -48,6 +34,25 @@ public class Missle : MonoBehaviour
         else {
             Explode();
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D HitCollider) {
+        DamageHandler DH = HitCollider.gameObject.GetComponent<DamageHandler>();
+        if (DH != null) {
+            DH.TakeDamage(dmg + dmg * Random.Range(-0.1f, 0.1f), pen);
+        }
+
+        Bullet B = HitCollider.gameObject.GetComponent<Bullet>();
+        if (B == null) {
+            Explode();
+        }
+
+        /* //This can be used in the future for specific dmg decals on ships
+        if (HitCollider.GetComponent<EnemyShip>() != null) {
+            HitCollider.GetContacts(cp);
+            Quaternion rot = Quaternion.FromToRotation(Vector3.up, cp[0].normal);
+            Vector3 pos = cp[0].point;
+        }*/
     }
 
     void Move() {
@@ -71,17 +76,15 @@ public class Missle : MonoBehaviour
     }
 
     void Explode() {
-        Instantiate(ImpactEffectPrefab, transform.position, transform.rotation); //this is an explosion effect
-        
         // aoe dmg
-        List<GameObject> ShipList = Scanner.ScanForShipsInRange(ShipScanner.ScanType.Enemy,explosionRadius);
+        List<GameObject> ShipList = myScanner.ScanForShipsInRange(ShipScanner.ScanType.Enemy,explosionRadius);
         for (int i = 0; i< ShipList.Count; i++) {
             float shipDist = Vector3.Distance(transform.position, ShipList[i].transform.position);
             float aoeDMG = Mathf.Max(0, (explosionRadius - shipDist)/explosionRadius * dmg);
             ShipList[i].GetComponent<DamageHandler>().TakeDamage(aoeDMG, 0);
         }
 
-        Destroy(gameObject);
+        myDH.Die();
     }
 
     #region Getters Setters
