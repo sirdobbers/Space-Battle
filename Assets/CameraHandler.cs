@@ -29,7 +29,7 @@ public class CameraHandler : MonoBehaviour {
             QRot = Quaternion.Euler(0, 0, QRot.eulerAngles.z);
 
             // new rel cam pos
-            vel = target.GetComponent<Ship>().GetVel() * 6.5f;
+            vel = target.GetComponent<Ship_Movement>().GetVel() * 6.5f;
             forw = QRot * new Vector3(0, 1, 0);
             //forw2 = QRot * new Vector3(0, 1, 0) * Mathf.Pow(vel.magnitude, 2);
             offPos = vel + forw * vel.magnitude * 0.1f;

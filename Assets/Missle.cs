@@ -56,7 +56,7 @@ public class Missle : MonoBehaviour
     }
 
     void Move() {
-        Vector3 targPos = gameObject.GetComponent<BulletPrediction2>().GetAimLocation(target, gameObject, speed * Time.deltaTime);
+        Vector3 targPos = gameObject.GetComponent<BulletPrediction>().GetAimLocation(target, gameObject, speed * Time.deltaTime);
         Vector3 targDir = (transform.position + targPos) - transform.position;
         float targAng = Mathf.Atan2(targDir.y, targDir.x) * Mathf.Rad2Deg - 90;
         Quaternion desiredRot = Quaternion.Euler(0, 0, targAng);
@@ -77,7 +77,8 @@ public class Missle : MonoBehaviour
 
     void Explode() {
         // aoe dmg
-        List<GameObject> ShipList = myScanner.ScanForShipsInRange(ShipScanner.ScanType.Enemy,explosionRadius);
+        myScanner.ScanInRange(ShipScanner.ScanType.Enemy, explosionRadius);
+        List<GameObject> ShipList = myScanner.GetShips();
         for (int i = 0; i< ShipList.Count; i++) {
             float shipDist = Vector3.Distance(transform.position, ShipList[i].transform.position);
             float aoeDMG = Mathf.Max(0, (explosionRadius - shipDist)/explosionRadius * dmg);

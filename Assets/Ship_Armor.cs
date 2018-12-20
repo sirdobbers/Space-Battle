@@ -12,7 +12,5 @@ public class Ship_Armor : Ship {
 	// Update is called once per frame
 	void Update () {
         base.CUpdate();
-        base.AdvancedAIMovementControl();
-        base.GenericAITurretControl();
     }
 }

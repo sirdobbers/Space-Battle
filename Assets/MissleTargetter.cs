@@ -96,7 +96,7 @@ public class MissleTargetter : MonoBehaviour
         GameObject go = Instantiate(MisslePrefab, transform.position, newRot);
         Missle missle = go.GetComponent<Missle>();
         missle.SetTarget(TargetList[curMissleCount]);
-        Vector3 vel = myShip.GetVel() + transform.up * launchSpeed * Time.deltaTime;
+        Vector3 vel = myShip.gameObject.GetComponent<Ship_Movement>().GetVel() + transform.up * launchSpeed * Time.deltaTime;
         go.layer = gameObject.layer;
         missle.SetVals(30, 0, 4f, 5f, 10, 100, vel);
     }

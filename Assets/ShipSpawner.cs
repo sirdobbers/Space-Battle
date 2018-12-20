@@ -85,7 +85,7 @@ public class ShipSpawner : MonoBehaviour
         Quaternion newRot = Quaternion.Euler(new Vector3(rot.x, rot.y, rot.z + off));
 
         GameObject go = Instantiate(SpawnShipPrefab, transform.position, newRot);
-        go.GetComponent<Ship>().SetVel(base.GetComponent<Ship>().GetVel() + go.transform.up * launchSpeed);
+        go.GetComponent<Ship_Movement>().SetVel(base.GetComponent<Ship_Movement>().GetVel() + go.transform.up * launchSpeed);
         go.layer = gameObject.layer;
         go.transform.GetChild(1).gameObject.layer = gameObject.layer;
         go.transform.GetChild(1).transform.GetChild(0).gameObject.layer = gameObject.layer;

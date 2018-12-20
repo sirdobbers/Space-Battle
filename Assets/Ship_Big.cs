@@ -11,7 +11,5 @@ public class Ship_Big : Ship {
 	// Update is called once per frame
 	void Update () {
         base.CUpdate();
-        base.AdvancedAIMovementControl();
-        base.GenericAITurretControl();
     }
 }

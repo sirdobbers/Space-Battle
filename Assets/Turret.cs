@@ -37,7 +37,7 @@ public class Turret : MonoBehaviour {
     void Update () {
         if (Target != null) {
             distance = Vector3.Distance(Target.transform.position, transform.position);
-            predictedAimPos = transform.position + gameObject.GetComponent<BulletPrediction2>().GetAimLocation(Target, gameObject, bulletSpeed * Time.deltaTime);
+            predictedAimPos = transform.position + gameObject.GetComponent<BulletPrediction>().GetAimLocation(Target, gameObject, bulletSpeed * Time.deltaTime);
         }
     }
     

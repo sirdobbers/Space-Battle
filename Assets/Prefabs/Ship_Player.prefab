@@ -10,11 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4012810875794116}
   - component: {fileID: 212189226059356156}
-  - component: {fileID: 114918385945092444}
   - component: {fileID: 50254147703528348}
   - component: {fileID: 60646029833053738}
   - component: {fileID: 114847003647693670}
+  - component: {fileID: 4658522491737793763}
+  - component: {fileID: 114918385945092444}
   - component: {fileID: 7120855793169431517}
+  - component: {fileID: 858027797169479356}
   m_Layer: 12
   m_Name: Ship_Player
   m_TagString: Ship
@@ -96,23 +98,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114918385945092444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1031175586640602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed01a892e559f164a94c03a2b34debc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  armor: 10
-  health: 10
-  DestroyEffectPrefab: {fileID: 1486832452894936, guid: 35fbf303476ecb4498dd9572fc7c1610,
-    type: 3}
-  canTakeDmg: 0
 --- !u!50 &50254147703528348
 Rigidbody2D:
   serializedVersion: 4
@@ -187,16 +172,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipName: Big Dik Nic
-  control: 1
+  control: 2
+  TurretArray: []
+  FixedGunArray: []
+  ShieldEffectPrefab: {fileID: 1867521147879556, guid: 5cc66566c8c52f144832db36d6cd2bd7,
+    type: 3}
+--- !u!114 &4658522491737793763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031175586640602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2733f77e091ce74ca02e81c6c33163e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   acceleration: 0.1
   rotSpeed: 180
   dampening: 0.005
-  hp: 1000
+  forward: 0
+  rotate: 0
+  strafe: 0
+  boost: 0
+--- !u!114 &114918385945092444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031175586640602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed01a892e559f164a94c03a2b34debc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1000
   armor: 1000
-  searchCooldown: 5
-  maxRange: 50
-  ShieldEffectPrefab: {fileID: 1867521147879556, guid: 5cc66566c8c52f144832db36d6cd2bd7,
+  DestroyEffectPrefab: {fileID: 1486832452894936, guid: 35fbf303476ecb4498dd9572fc7c1610,
     type: 3}
+  canTakeDmg: 0
 --- !u!114 &7120855793169431517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +227,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MisslePrefab: {fileID: 1573895260450220, guid: 23a8ff912e9e861458182c94985e24da,
     type: 3}
+--- !u!114 &858027797169479356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031175586640602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5984cbe2757409a49b75c445949734ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1066705791621400
 GameObject:
   m_ObjectHideFlags: 0

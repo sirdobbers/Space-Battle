@@ -26,8 +26,7 @@ public class ShipScanner : MonoBehaviour
     void Update() {
         if (autoScan == true) {
             if (intervalTimer <= 0) {
-                ScanForShips();
-                ScanForClosestShip(scanType);
+                Scan();
                 intervalTimer = scanInterval;
             }
             else {
@@ -36,43 +35,33 @@ public class ShipScanner : MonoBehaviour
         }
     }
 
-    public List<GameObject> ScanForShips(ScanType scanType) {
-        this.scanType = scanType;
-        ScanForShips();
-        return ShipList;
-    }
-
-    public List<GameObject> ScanForShipsInRange(ScanType scanType, float scanRange) {
-        this.scanType = scanType;
+    public void ScanInRange(ScanType t, float scanRange) {
         this.scanRange = scanRange;
-        ScanForShips();
-        return ShipList;
+        Scan(t);
     }
 
-    public GameObject ScanForClosestShip(ScanType scanType) {
-        this.scanType = scanType;
-        ScanForShips();
-        FindClosestShip();
-        return ClosestShip;
+    public void Scan() {
+        Scan(scanType);
     }
 
-    public void ScanForShips() {
+    public void Scan(ScanType t) {
         ShipList.Clear();
         GameObject[] TempArray = GameObject.FindGameObjectsWithTag("Ship");
         foreach (GameObject go in TempArray) {
             if (go.GetComponent<Ship>() != null && !go.Equals(this.gameObject)) {
                 int targetLayer = go.GetComponent<Ship>().gameObject.layer;
-                if (scanType == ScanType.Enemy && targetLayer != gameObject.layer) {
+                if (t == ScanType.Enemy && targetLayer != gameObject.layer) {
                     AddShip(go);
                 }
-                else if (scanType == ScanType.Ally && targetLayer == gameObject.layer) {
+                else if (t == ScanType.Ally && targetLayer == gameObject.layer) {
                     AddShip(go);
                 }
-                else if (scanType == ScanType.All) {
+                else if (t == ScanType.All) {
                     AddShip(go);
                 }
             }
         }
+        FindClosestShip();
     }
 
     private void AddShip(GameObject go) {
@@ -103,5 +92,15 @@ public class ShipScanner : MonoBehaviour
                 }
             }
         }
+    }
+
+    public List<GameObject> GetShips() {
+        RemoveNullShips();
+        return ShipList;
+    }
+
+    public GameObject GetClosestShip() {
+        RemoveNullShips();
+        return ClosestShip;
     }
 }

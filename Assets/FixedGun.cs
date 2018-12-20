@@ -89,8 +89,8 @@ public class FixedGun : MonoBehaviour {
 
     public void Fire() {
         if (ReadyFire()) {
-            if (Parent.GetComponent<Ship>() != null) { vel = Parent.GetComponent<Ship>().GetVel(); }
-            Vector3 offsetPos = transform.rotation * fireOffset + vel;
+            if (Parent.GetComponent<Ship>() != null) { vel = Parent.GetComponent<Ship_Movement>().GetVel(); }
+            Vector3 offsetPos = transform.rotation * fireOffset;
             if (type == TurretType.Missle) {
                 GameObject missle = (GameObject)Instantiate(MisslePrefab, transform.position + offsetPos, transform.rotation);
                 missle.GetComponent<Missle>().SetVel(vel);

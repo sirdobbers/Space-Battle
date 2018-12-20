@@ -18,7 +18,6 @@ public class Ship_Valiant : Ship {
 	
 	void Update () {
         base.CUpdate();
-        base.GenericPlayerControl();
 
         HandleShield();
 	}
