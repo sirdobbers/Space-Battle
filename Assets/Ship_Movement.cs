@@ -5,9 +5,12 @@ using UnityEngine;
 public class Ship_Movement : MonoBehaviour
 {
     public float acceleration = 0.1f; // units per second
-    public float rotSpeed = 360f; // degrees per second
+    public float rotSpeed = 180f; // max rot speed in degrees per second
     public float dampening = 0.005f;
-    
+    float rotateP = 0;
+    float rotateA = 360; //rot acceleration in degrees per sec
+    float rotateB = 5; //rotate brake multiplier
+
     protected Vector3 vel = new Vector3(0, 0, 0);
 
     Quaternion QRot;
@@ -73,14 +76,19 @@ public class Ship_Movement : MonoBehaviour
 
         Quaternion desiredRot = Quaternion.Euler(0, 0, posAng - 90);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRot, rotSpeed * Time.deltaTime);
-        rotate = Mathf.Clamp(angDiff, -1, 1);
     }
 
     public void Rotate(float rotate) {
         Quaternion QRot = transform.rotation;
         this.rotate = rotate;
         float z = QRot.eulerAngles.z;
-        z -= rotSpeed * Time.deltaTime * rotate;
+        if (rotate != 0) {
+            rotateP = Mathf.Clamp(rotateP + rotate*rotateA*Time.deltaTime, -rotSpeed, rotSpeed);
+        }
+        else {
+            rotateP -= Mathf.Clamp(rotateP * Time.deltaTime*5, -rotSpeed, rotSpeed);
+        }
+        z -= rotateP * Time.deltaTime;
         QRot = Quaternion.Euler(0, 0, z);
         transform.rotation = QRot;
     }
