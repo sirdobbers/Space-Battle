@@ -4,48 +4,59 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
-    public bool active = true;
+    public bool enable = true;
     public float shield = 100;
-    float shieldAlpha = 3;
+    float alpha = 3;
     float startAlpha;
+    float startShield;
+    bool active = true;
 
-    public GameObject DieEffectPrefab;
-
-    void Start()
-    {
-        startAlpha = shieldAlpha;
+    void Start(){
+        startShield = shield;
+        startAlpha = alpha;
+        Activate();
     }
 
-    // Update is called once per frame
+    void Activate() {
+        active = true;
+        alpha = startAlpha;
+        shield = startShield;
+        gameObject.layer = 12; //team 2 (can collide with bullets)
+        transform.localScale = transform.parent.transform.localScale * 4;
+    }
+
+    public void Die() {
+        active = false;
+        alpha = 1f;
+        gameObject.layer = 9; // background (cant collide with bullets)
+        //GameObject go = Instantiate(DieEffectPrefab, transform.position, transform.rotation);
+    }
+    
     void Update() {
+        if (Input.GetKeyDown(KeyCode.X)) {
+            Activate();
+        }
         if (active) {
-            if (shield <= 0) {
-                gameObject.layer = 9;
-                shieldAlpha = 0;
-                active = false;
-                Die();
+            if (shield > 0) {
+                if (alpha > 0) {
+                    alpha -= 2f * Time.deltaTime;
+                }
             }
             else {
-                gameObject.layer = 12;
+                Die();
             }
         }
-        else{
-            gameObject.layer = 9;
-            shieldAlpha = 0;
+        else {
+            if (alpha > 0) {
+                alpha -= 6f * Time.deltaTime;
+                gameObject.transform.localScale = gameObject.transform.localScale * 1.1f;
+            }
         }
-
-        if (shieldAlpha > 0) {
-            shieldAlpha -= 2f * Time.deltaTime;
-        }
-        gameObject.GetComponent<MeshRenderer>().materials[0].SetFloat("Vector1_AD77814F", Mathf.Clamp(shieldAlpha, 0, 1));
+        gameObject.GetComponent<MeshRenderer>().materials[0].SetFloat("Vector1_AD77814F", Mathf.Clamp(alpha, 0, 1));       
     }
 
     public void TakeDamage(float dmg) {
         shield -= dmg;
-        shieldAlpha = startAlpha;
-    }
-
-    public void Die() {
-        GameObject go = Instantiate(DieEffectPrefab, transform.position, transform.rotation);
+        alpha = startAlpha;
     }
 }

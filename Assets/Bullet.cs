@@ -19,6 +19,8 @@ public class Bullet : MonoBehaviour
     void Start() {
         gameObject.GetComponent<TrailRenderer>().sortingLayerName = gameObject.GetComponent<SpriteRenderer>().sortingLayerName;
         gameObject.GetComponent<TrailRenderer>().sortingOrder = gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+        GetComponent<TrailRenderer>().startWidth = Mathf.Clamp(0.05f * dmg, 0.01f, 0.5f);
+        GetComponent<TrailRenderer>().time = Mathf.Clamp(dmg*0.2f, 0.1f, 4); ;
     }
 
     void OnTriggerEnter2D(Collider2D HitCollider) {

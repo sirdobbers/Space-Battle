@@ -19,7 +19,7 @@ public class Ship_Valiant : Ship {
 	void Update () {
         base.CUpdate();
 
-        HandleShield();
+        //HandleShield();
 	}
 
     public void HandleShield() {

@@ -92,10 +92,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f56278e05299d4184484cbc75aa024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 1
-  shield: 10
-  DieEffectPrefab: {fileID: 7271700203434187367, guid: de741c4f9f8f1bd4892acba0bd705ffc,
-    type: 3}
+  enable: 1
+  shield: 40
 --- !u!58 &6326158472502716236
 CircleCollider2D:
   m_ObjectHideFlags: 0
