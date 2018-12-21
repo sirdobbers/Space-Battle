@@ -9,7 +9,7 @@ public class ShipScanner : MonoBehaviour
     {
         Enemy, Ally, All
     }
-    public bool autoScan = false;
+    public bool autoScan = true;
     public ScanType scanType = ScanType.Enemy;
     public float scanRange = 0; //0 means infinite range
 

@@ -26,6 +26,10 @@ public class Bullet : MonoBehaviour
         if (DH != null) {
             DH.TakeDamage(dmg+dmg*Random.Range(-0.1f,0.1f), pen);
         }
+        Shield S = HitCollider.gameObject.GetComponent<Shield>();
+        if (S != null) {
+            S.TakeDamage(dmg + dmg * Random.Range(-0.1f, 0.1f));
+        }
         Explode();
     }
     

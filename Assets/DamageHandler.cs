@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageHandler : MonoBehaviour {
-    public float health=1;
-    public float armor=1;
+    public float health = 1;
+    public float armor = 1;
 
     public GameObject DestroyEffectPrefab;
     public bool canTakeDmg = true;
 
     private HealthBar HPBar;
+    private float startShield;
     private float startArmor;
     private float startHealth;
 
     void Start() {
-
+        
         startArmor = armor;
         startHealth = health;
 
@@ -47,6 +48,7 @@ public class DamageHandler : MonoBehaviour {
             float armorDMG = Mathf.Clamp(dmg, 0, armor);
             health -= armorDMG * pen + Mathf.Max(0, dmg - armor);
             armor -= armorDMG;
+            
 
             if (HPBar != null) {
                 HPBar.Hit();

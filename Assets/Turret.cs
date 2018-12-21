@@ -9,9 +9,11 @@ using UnityEngine;
  */
 
 public class Turret : MonoBehaviour {
+    public bool autoTurret = true;
+    public bool active = true;
+    public float targetRange = 50;
     public float rotSpeed = 90f;
     public float rotateRange = 360; // degrees
-    public float targetRange = 20;
     public bool debug = false;
 
     private GameObject Parent;
@@ -21,6 +23,7 @@ public class Turret : MonoBehaviour {
     float distance;
     float bulletSpeed;
 
+    ShipScanner scanComp;
 
 
     void Start() {
@@ -32,12 +35,22 @@ public class Turret : MonoBehaviour {
         //gameObject.GetComponent<SpriteRenderer>().sortingOrder = Parent.GetComponent<SpriteRenderer>().sortingOrder + 1;
 
         bulletSpeed = Child_Gun.GetComponent<FixedGun>().projectileInitSpeed;
+
+        scanComp = GetComponent<ShipScanner>();
+        if (scanComp==null && autoTurret == true) {
+            Debug.LogError("Turret requires ShipScanner component if autoturret is enabled");
+        }
     }
 
     void Update () {
-        if (Target != null) {
+        if (autoTurret == true && scanComp != null) {
+            Target = scanComp.GetClosestShip();
+        }
+        if (Target != null && active == true) {
             distance = Vector3.Distance(Target.transform.position, transform.position);
             predictedAimPos = transform.position + gameObject.GetComponent<BulletPrediction>().GetAimLocation(Target, gameObject, bulletSpeed * Time.deltaTime);
+            RotateTurretToTarget(Target);
+            ValidFire();
         }
     }
     
@@ -99,7 +112,7 @@ public class Turret : MonoBehaviour {
         return Mathf.Atan2(myGunDir.y, myGunDir.x) * Mathf.Rad2Deg;
     }
 
-    public void SetTarget(GameObject T) {
+    private void SetTarget(GameObject T) {
         Target = T;
     }
 

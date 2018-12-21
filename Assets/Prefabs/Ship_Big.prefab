@@ -1048,6 +1048,7 @@ GameObject:
   - component: {fileID: 4615945550540134}
   - component: {fileID: 212062422094053472}
   - component: {fileID: 114874250722862752}
+  - component: {fileID: 8395344216955098601}
   - component: {fileID: 114065958495282546}
   m_Layer: 10
   m_Name: Turret2
@@ -1131,10 +1132,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2da4c5a0a378384ebbe2a6998040c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoTurret: 1
+  active: 1
+  targetRange: 90
   rotSpeed: 80
   rotateRange: 360
-  targetRange: 90
   debug: 0
+--- !u!114 &8395344216955098601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626623642958066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff58eac2ba8dee84b92550e01f5fbc26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoScan: 1
+  scanType: 0
+  scanRange: 0
+  ShipList: []
+  ClosestShip: {fileID: 0}
 --- !u!114 &114065958495282546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1480,6 +1500,7 @@ GameObject:
   - component: {fileID: 4228165621793770}
   - component: {fileID: 212431544907788620}
   - component: {fileID: 114172319258917956}
+  - component: {fileID: 1690855621967031802}
   - component: {fileID: 114873728994154220}
   m_Layer: 10
   m_Name: Turret1
@@ -1563,10 +1584,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2da4c5a0a378384ebbe2a6998040c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoTurret: 1
+  active: 1
+  targetRange: 90
   rotSpeed: 80
   rotateRange: 360
-  targetRange: 90
   debug: 0
+--- !u!114 &1690855621967031802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918061647410796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff58eac2ba8dee84b92550e01f5fbc26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoScan: 1
+  scanType: 0
+  scanRange: 0
+  ShipList: []
+  ClosestShip: {fileID: 0}
 --- !u!114 &114873728994154220
 MonoBehaviour:
   m_ObjectHideFlags: 0

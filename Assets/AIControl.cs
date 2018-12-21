@@ -43,7 +43,7 @@ public class AIControl : MonoBehaviour
         angDiff = Mathf.DeltaAngle(targAng, myAng);
 
         Move();
-        HandleTurrets();
+        HandleFixedGuns();
     }
 
     public void Move() {
@@ -73,21 +73,12 @@ public class AIControl : MonoBehaviour
         }
     }
 
-    public void HandleTurrets() {
+    public void HandleFixedGuns() {
         // FIRE GUNS
         if (shipComp.control != Ship.Control.None) {
             if (Mathf.Abs(angDiff) < 5) {
                 for (int i = 0; i < shipComp.FixedGunArray.Count; i++) {
                     shipComp.FixedGunArray[i].GetComponent<FixedGun>().Fire();
-                }
-            }
-            // ROTATE & FIRE TURRETS
-            for (int i = 0; i < shipComp.TurretArray.Count; i++) {
-                if (target != null) {
-                    Turret T = shipComp.TurretArray[i].GetComponent<Turret>();
-                    T.SetTarget(target);
-                    T.RotateTurretToTarget(true);
-                    T.ValidFire();
                 }
             }
         }

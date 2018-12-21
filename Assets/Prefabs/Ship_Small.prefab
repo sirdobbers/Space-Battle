@@ -1062,6 +1062,7 @@ GameObject:
   - component: {fileID: 212979906966187978}
   - component: {fileID: 114906696818999786}
   - component: {fileID: 114525103101067546}
+  - component: {fileID: 3547445515539759906}
   m_Layer: 11
   m_Name: Turret1
   m_TagString: Turret
@@ -1144,9 +1145,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2da4c5a0a378384ebbe2a6998040c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoTurret: 1
+  active: 1
+  targetRange: 40
   rotSpeed: 80
   rotateRange: 360
-  targetRange: 40
   debug: 0
 --- !u!114 &114525103101067546
 MonoBehaviour:
@@ -1160,6 +1163,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069147902310a0b46abdceeeebf44c90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3547445515539759906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549803901745428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff58eac2ba8dee84b92550e01f5fbc26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoScan: 1
+  scanType: 0
+  scanRange: 0
+  ShipList: []
+  ClosestShip: {fileID: 0}
 --- !u!1 &1561742263894122
 GameObject:
   m_ObjectHideFlags: 0
