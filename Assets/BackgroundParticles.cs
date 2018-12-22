@@ -13,11 +13,11 @@ public class BackgroundParticles : MonoBehaviour {
     
     void Update () {
         float oSize = Camera.main.orthographicSize*0.12f;
-        ps.transform.localScale = new Vector3(oSize, oSize, oSize);
-        ps.startSize = 1f/oSize;
-        ps.maxParticles = (int)(oSize*40)+50;
+        ParticleSystem.ShapeModule Shape = ps.shape;
+        Shape.scale = new Vector3(oSize, oSize, oSize)*50;
+        ps.maxParticles = (int)(oSize*15)+15;
         ParticleSystem.EmissionModule Emission = ps.emission;
-        Emission.rate = (int)(oSize * 20) + 20;
+        Emission.rate = (int)(oSize * 15) + 15;
         
 
 

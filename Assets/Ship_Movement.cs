@@ -31,8 +31,6 @@ public class Ship_Movement : MonoBehaviour
     
     void Update()
     {
-        boost = 0; strafe = 0; rotate = 0; forward = 0;
-
         QRot = transform.rotation;
         myDir = transform.up; myDir.Normalize();
         myAng = Mathf.Atan2(myDir.y, myDir.x) * Mathf.Rad2Deg;

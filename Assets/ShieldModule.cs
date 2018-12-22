@@ -4,15 +4,38 @@ using UnityEngine;
 
 public class ShieldModule : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public bool enable = true;
+    public float shield = 100;
+
+    public GameObject shieldPrefab;
+
+    private GameObject shieldOb;
+
+
+    void Start() {
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Activate() {
+        if (shieldOb == null) {
+            shieldOb = Instantiate(shieldPrefab, transform.position, transform.rotation);
+            Shield shieldComp = shieldOb.GetComponent<Shield>();
+            if (shieldComp != null) {
+                shieldComp.Controller = GetComponent<ShieldModule>();
+                shieldComp.Parent = gameObject;
+                shieldComp.startShield = shield;
+                shieldComp.shield = shield;
+                shieldOb.transform.localScale = transform.localScale * 3;
+                shieldOb.layer = gameObject.layer;
+            }
+        }
+    }
+
+    void Update() {
+        if (enable) {
+            if (Input.GetKeyDown(KeyCode.X)) {
+                Activate();
+            }
+        }
     }
 }

@@ -4,38 +4,31 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
-    public bool enable = true;
-    public float shield = 100;
     float alpha = 3;
     float startAlpha;
-    float startShield;
     bool active = true;
 
-    void Start(){
-        startShield = shield;
-        startAlpha = alpha;
-        Activate();
-    }
+    public GameObject DieEffectPrefab;
 
-    void Activate() {
-        active = true;
-        alpha = startAlpha;
-        shield = startShield;
-        gameObject.layer = 12; //team 2 (can collide with bullets)
-        transform.localScale = transform.parent.transform.localScale * 4;
+    [HideInInspector] public float shield;
+    [HideInInspector] public float startShield;
+    [HideInInspector] public ShieldModule Controller;
+    [HideInInspector] public GameObject Parent;
+
+    void Start(){
+        startAlpha = alpha;
     }
 
     public void Die() {
         active = false;
         alpha = 1f;
         gameObject.layer = 9; // background (cant collide with bullets)
-        //GameObject go = Instantiate(DieEffectPrefab, transform.position, transform.rotation);
+        gameObject.transform.localScale = gameObject.transform.localScale * 0.5f;
+        //Instantiate(DieEffectPrefab, transform.position, transform.rotation);
     }
     
     void Update() {
-        if (Input.GetKeyDown(KeyCode.X)) {
-            Activate();
-        }
+        transform.position = Parent.transform.position;
         if (active) {
             if (shield > 0) {
                 if (alpha > 0) {
@@ -49,7 +42,10 @@ public class Shield : MonoBehaviour
         else {
             if (alpha > 0) {
                 alpha -= 6f * Time.deltaTime;
-                gameObject.transform.localScale = gameObject.transform.localScale * 1.1f;
+                gameObject.transform.localScale = gameObject.transform.localScale * 1.15f;
+            }
+            else {
+                Destroy(gameObject);
             }
         }
         gameObject.GetComponent<MeshRenderer>().materials[0].SetFloat("Vector1_AD77814F", Mathf.Clamp(alpha, 0, 1));       
